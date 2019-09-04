@@ -30,12 +30,11 @@ class App extends React.Component {
       // console.log("status text", this.statusText);
       // console.log("status code", this.status);
       var usableData = JSON.parse(this.responseText)
-      console.log(usableData)
       if (usableData.length > 0){
         componentThis.setState({
           login:"",
-          userCookie:usableData.id,
-          userName:usableData.name,
+          userCookie:usableData[0].id,
+          userName:usableData[0].name,
           score: <Score getGamePage={componentThis.getGamePage.bind(componentThis)}/>,
           invalidLogin:""
         })
@@ -81,6 +80,7 @@ class App extends React.Component {
   }
 
   getGamePage(){
+    console.log(this.state)
     this.setState({
       score:"",
       gamePage:<Game userName={this.state.userName} userCookie={this.state.userCookie} getScorePage={this.getScorePage.bind(this)}/>,

@@ -6,12 +6,59 @@ class Game extends React.Component {
   constructor() {
     super();
     this.state = {
-      username:"",
-      password:"",
-      createUser:"",
-      createPass:""
+      gameState:[],
+      player:{
+        up:false,
+        down:false,
+        left:false,
+        right:false,
+      }
     };
   }
+
+  componentDidMount(){
+    console.log("mounted!")
+    document.addEventListener('keydown',(event)=>{
+      this.listenForKey(event,true)
+    })
+    document.addEventListener('keyup',(event)=>{
+      this.listenForKey(event,false)
+    })
+    setInterval(()=>{
+      //emitting starts here
+      console.log(this.state.player)
+    },1000)
+  }
+
+  componentWillUnmount(){
+    console.log("leaving!")
+    //io disconnect happens here
+  }
+
+  listenForKey(e,type){
+    e.preventDefault()
+    if (e.which === 38){
+      this.setState(state=>{
+        state.player.up=type
+      })
+    }
+    if (e.which === 40){
+      this.setState(state=>{
+        state.player.down=type
+      })
+    }
+    if (e.which === 37){
+      this.setState(state=>{
+        state.player.left=type
+      })
+    }
+    if (e.which === 39){
+      this.setState(state=>{
+        state.player.right=type
+      })
+    }
+  }
+
 
   render() {
     return (
