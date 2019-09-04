@@ -43,7 +43,7 @@ class Login extends React.Component {
         <input type="text" onChange={this.getUser.bind(this)}></input><br/>
         <label>Password:</label>
         <input type="password" onChange={this.getPass.bind(this)}></input><br/>
-        <button onClick={this.props.getUserInfo.bind(this,this.state.username,this.state.password)}>Login</button>
+        <button onClick={this.props.getUserInfo.bind(this,this.state.username,this.state.password)}>Login</button><br/><br/>
 
         <label>Username:</label>
         <input type="text" onChange={this.newUser.bind(this)}></input><br/>

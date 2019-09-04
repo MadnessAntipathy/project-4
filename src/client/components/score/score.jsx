@@ -40,6 +40,7 @@ class Score extends React.Component {
   render() {
     return (
       <div>
+        <button onClick={this.props.getGamePage.bind(this)}>Go to game</button>
         {this.state.displayList}
       </div>
     );
@@ -47,7 +48,7 @@ class Score extends React.Component {
 }
 
 Score.propTypes = {
-
+  getGamePage: PropTypes.func.isRequired,
 };
 
 export default Score;

@@ -2,6 +2,8 @@ import React from 'react';
 import { hot } from 'react-hot-loader';
 import Login from './components/login/login';
 import Score from './components/score/score';
+import Game from './components/game/game';
+
 
 class App extends React.Component {
   constructor() {
@@ -34,7 +36,7 @@ class App extends React.Component {
           login:"",
           userCookie:usableData.id,
           userName:usableData.name,
-          score: <Score />,
+          score: <Score getGamePage={componentThis.getGamePage.bind(componentThis)}/>,
           invalidLogin:""
         })
       }else{
@@ -64,7 +66,7 @@ class App extends React.Component {
         login:"",
         userCookie:usableData.id,
         userName:usableData.name,
-        score: <Score />,
+        score: <Score getGamePage={componentThis.getGamePage.bind(componentThis)}/>,
         invalidLogin:""
       })
     };
@@ -78,12 +80,27 @@ class App extends React.Component {
 
   }
 
+  getGamePage(){
+    this.setState({
+      score:"",
+      gamePage:<Game userName={this.state.userName} userCookie={this.state.userCookie} getScorePage={this.getScorePage.bind(this)}/>,
+    })
+  }
+
+  getScorePage(){
+    this.setState({
+      score:<Score getGamePage={this.getGamePage.bind(this)}/>,
+      gamePage:"",
+    })
+  }
+
   render() {
     return (
       <div>
         {this.state.login}
         {this.state.invalidLogin}
         {this.state.score}
+        {this.state.gamePage}
       </div>
     );
   }
