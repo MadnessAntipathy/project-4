@@ -2,8 +2,8 @@ console.log("works")
 module.exports.player = {}
 
 module.exports.collision = function (solo, group){
-  console.log(solo)
-  console.log(group)
+  // console.log(solo)
+  // console.log(group)
 }
 
 // class GameMap extends React.Component{

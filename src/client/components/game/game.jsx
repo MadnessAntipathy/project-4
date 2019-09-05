@@ -4,6 +4,8 @@ import styles from './style.scss';
 // import { subscribeToTimer } from './client';
 import { sendMoveData } from './client';
 import { updateState } from './client';
+import { newPlayer } from './client';
+import { disconnectGame } from './client';
 
 class Game extends React.Component {
   constructor() {
@@ -17,26 +19,49 @@ class Game extends React.Component {
         right:false,
       },
       refresh: 5000,
-      timestamp: 'no timestamp yet'
+      newPlayer: false,
+      connection: true
     };
     updateState((err, data) => {
-
-      while(document.querySelector("#gameMap").firstChild){
-        document.querySelector("#gameMap").removeChild(document.querySelector("#gameMap").firstChild)
-      }
-      for (var key in data){
-        if (data.hasOwnProperty(key)){
-            var unit = document.createElement("div")
-            unit.style.width = 10+"px"
-            unit.style.height = 10+"px"
-            unit.style.position = "absolute"
-            unit.style.backgroundColor = "red"
-            unit.style.top = data[key].y + "px"
-            unit.style.left = data[key].x + "px"
-            document.querySelector("#gameMap").appendChild(unit)
+      if (this.state.connection === true){
+        while(document.querySelector("#gameMap").firstChild){
+          document.querySelector("#gameMap").removeChild(document.querySelector("#gameMap").firstChild)
+        }
+        for (var key in data){
+          if (data.hasOwnProperty(key)){
+              var unit = document.createElement("div")
+              unit.style.width = 10+"px"
+              unit.style.height = 10+"px"
+              unit.style.position = "absolute"
+              unit.style.backgroundColor = "red"
+              unit.style.top = data[key].y + "px"
+              unit.style.left = data[key].x + "px"
+              unit.innerHTML = data[key].name
+              document.querySelector("#gameMap").appendChild(unit)
+          }
         }
       }
     });
+  }
+
+  createNewPlayer(){
+    if (!this.state.newPlayer){
+      var data = {
+        userName: this.props.userName,
+        userId: this.props.userCookie,
+      }
+      newPlayer(data)
+      this.setState({newPlayer:true})
+
+      this.game = setInterval(()=>{
+        var data = {
+          userName: this.props.userName,
+          userId: this.props.userCookie,
+          move: this.state.player
+        }
+        sendMoveData(data)
+      },1000/60)
+    }
   }
 
   componentDidMount(){
@@ -47,21 +72,23 @@ class Game extends React.Component {
     document.addEventListener('keyup',(event)=>{
       this.listenForKey(event,false)
     })
-    this.game = setInterval(()=>{
-      var data = {
-        userName: this.props.userName,
-        userId: this.props.userCookie,
-        move: this.state.player
-      }
-      sendMoveData(data)
-    },1000/60)
   }
 
 
   componentWillUnmount(){
     console.log("leaving!")
+    disconnectGame()
+    this.setState({connection:false})
     clearInterval(this.game)
+
     //io disconnect happens here
+  }
+
+  leaveGame(){
+    console.log("leaving!")
+    disconnectGame()
+    this.setState({connection:false})
+    clearInterval(this.game)
   }
 
   listenForKey(e,type){
@@ -86,14 +113,13 @@ class Game extends React.Component {
         state.player.right=type
       })
     }
-
   }
 
 
   render() {
     return (
       <div>
-        <button onClick={this.props.getScorePage.bind(this)}>Go to score</button>
+        <button onClick={this.leaveGame.bind(this),this.props.getScorePage.bind(this)}>Go to score</button>
         <p>The game starts here...</p>
         <div id="gameMap" style={{position:"relative",backgroundColor:"black", height:"500px", width:"500px"}}>
 
@@ -101,7 +127,7 @@ class Game extends React.Component {
 
         <div className="App">
           <p className="App-intro">
-          This is the timer value from SOCKET IO: {this.state.timestamp}
+            <button onClick={this.createNewPlayer.bind(this)}>Join Game</button>
           </p>
         </div>
       </div>

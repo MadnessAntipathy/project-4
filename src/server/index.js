@@ -49,13 +49,15 @@ const port = 8000;
 io.listen(port);
 
 io.on('connection', (client) => {
-  console.log("``````````````````````client.id``````````````````````",client.id)
-  logic.player[client.id]={
-    x:250,
-    y:250,
-  }
-  
+  // console.log("``````````````````````client.id``````````````````````",client.id)
 
+  client.on('newPlayer',(info)=>{
+    logic.player[client.id]={
+      name: info.userName,
+      x:250,
+      y:250,
+    }
+  })
   // client.on('subscribeToTimer', (interval) => {
   //   setInterval(() => {
   //     client.emit('timer', new Date());
@@ -77,11 +79,18 @@ io.on('connection', (client) => {
     if (info.move.right && player.x + 10 < 500){
       player.x+=5;
     }
-    // console.log(logic.player[client.id])
+    console.log(logic.player)
     logic.collision(player, logic.player)
     // console.log(info.userName, " is Sending DATA on ID ", info.userId, " with ", info.move)
     io.sockets.emit('state', logic.player)
   });
+
+  client.on('disconnect',(info)=>{
+    // client.disconnect()
+    console.log("disconnecting!")
+    delete logic.player[client.id]
+  })
+
 });
 
 

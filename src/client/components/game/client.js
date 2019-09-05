@@ -7,8 +7,10 @@ function updateState(cb){
 }
 export { updateState };
 
-
-
+function newPlayer(cb){
+  socket.emit('newPlayer', cb);
+}
+export { newPlayer };
 
 
 
@@ -16,3 +18,8 @@ function sendMoveData(cb) {
   socket.emit('sendMoveData', cb);
 }
 export { sendMoveData };
+
+function disconnectGame(cb){
+  socket.emit('disconnect',cb)
+}
+export { disconnectGame };
