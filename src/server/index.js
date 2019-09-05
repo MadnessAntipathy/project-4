@@ -54,7 +54,7 @@ io.on('connection', (client) => {
     x:250,
     y:250,
   }
-  client.emit('newplayer')
+  
 
   // client.on('subscribeToTimer', (interval) => {
   //   setInterval(() => {
