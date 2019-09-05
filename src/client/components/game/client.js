@@ -1,9 +1,8 @@
 import openSocket from 'socket.io-client';
 const socket = openSocket('http://localhost:8000');
 
-
 function updateState(cb){
-  socket.on('state', data=>cb(null,data))
+  socket.on('state', data=>cb(data))
 }
 export { updateState };
 
@@ -12,14 +11,17 @@ function newPlayer(cb){
 }
 export { newPlayer };
 
-
-
 function sendMoveData(cb) {
   socket.emit('sendMoveData', cb);
 }
 export { sendMoveData };
 
-function disconnectGame(cb){
-  socket.emit('disconnect',cb)
+function getMoveInfo(cb){
+  socket.on('getMoveInfo', data=>cb())
+}
+export { getMoveInfo };
+
+function disconnectGame(){
+  socket.emit('disconnectClient')
 }
 export { disconnectGame };

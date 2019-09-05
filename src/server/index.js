@@ -44,54 +44,61 @@ setupAppRoutes(app);
 
 const logic = require('./logic/logic.js');
 
-const io = require('socket.io')();
+var server = require('http').createServer(app);
+const io = require('socket.io')(server, { wsEngine: 'ws' });
 const port = 8000;
 io.listen(port);
 
 io.on('connection', (client) => {
-  // console.log("``````````````````````client.id``````````````````````",client.id)
-
+  var newInterval;
   client.on('newPlayer',(info)=>{
     logic.player[client.id]={
       name: info.userName,
       x:250,
       y:250,
     }
+    clearInterval(newInterval)
+    console.log("resetting interval")
+    newInterval = setInterval(()=>{
+      console.log(logic.player)
+      io.sockets.emit('state', logic.player)
+      io.sockets.emit('getMoveInfo', logic.player)
+      if (Object.entries(logic.player).length === 0){
+        clearInterval(newInterval)
+      }
+    },1000/60)
   })
-  // client.on('subscribeToTimer', (interval) => {
-  //   setInterval(() => {
-  //     client.emit('timer', new Date());
-  //     console.log('client is subscribing to timer with interval ', interval);
-  //   }, interval);
-  // });
 
   client.on('sendMoveData', (info)=>{
-    var player = logic.player[client.id] || {}
-    if (info.move.up && player.y > 0){
-      player.y-=5;
-    }
-    if (info.move.down && player.y + 10 < 500){
-      player.y+=5;
-    }
-    if (info.move.left && player.x > 0){
-      player.x-=5;
-    }
-    if (info.move.right && player.x + 10 < 500){
-      player.x+=5;
-    }
-    console.log(logic.player)
-    logic.collision(player, logic.player)
-    // console.log(info.userName, " is Sending DATA on ID ", info.userId, " with ", info.move)
-    io.sockets.emit('state', logic.player)
+      var player = logic.player[client.id] || {}
+      if (info.move.up && player.y > 0){
+        player.y-=5;
+      }
+      if (info.move.down && player.y + 10 < 500){
+        player.y+=5;
+      }
+      if (info.move.left && player.x > 0){
+        player.x-=5;
+      }
+      if (info.move.right && player.x + 10 < 500){
+        player.x+=5;
+      }
   });
 
-  client.on('disconnect',(info)=>{
-    // client.disconnect()
-    console.log("disconnecting!")
+  client.on('disconnectClient', ()=>{
     delete logic.player[client.id]
+    // client.disconnect()
+    console.log("client disconnected")
+    // client.client.connect()
+    console.log("client connected")
   })
 
 });
+
+
+
+
+
 
 
 http.createServer(app).listen(process.env.PORT, () => {

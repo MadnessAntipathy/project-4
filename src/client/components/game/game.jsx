@@ -1,94 +1,100 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './style.scss';
+import openSocket from 'socket.io-client';
 // import { subscribeToTimer } from './client';
 import { sendMoveData } from './client';
 import { updateState } from './client';
 import { newPlayer } from './client';
+import { getMoveInfo } from './client';
 import { disconnectGame } from './client';
 
 class Game extends React.Component {
+
   constructor() {
     super();
     this.state = {
-      gameState:[],
       player:{
         up:false,
         down:false,
         left:false,
         right:false,
       },
-      refresh: 5000,
       newPlayer: false,
       connection: true
     };
-    updateState((err, data) => {
-      if (this.state.connection === true){
-        while(document.querySelector("#gameMap").firstChild){
-          document.querySelector("#gameMap").removeChild(document.querySelector("#gameMap").firstChild)
-        }
-        for (var key in data){
-          if (data.hasOwnProperty(key)){
-              var unit = document.createElement("div")
-              unit.style.width = 10+"px"
-              unit.style.height = 10+"px"
-              unit.style.position = "absolute"
-              unit.style.backgroundColor = "red"
-              unit.style.top = data[key].y + "px"
-              unit.style.left = data[key].x + "px"
-              unit.innerHTML = data[key].name
-              document.querySelector("#gameMap").appendChild(unit)
-          }
+    updateState((data) => {
+      while(document.querySelector("#gameMap").firstChild){
+        document.querySelector("#gameMap").removeChild(document.querySelector("#gameMap").firstChild)
+      }
+      for (var key in data){
+        if (data.hasOwnProperty(key)){
+            var unit = document.createElement("div")
+            unit.style.width = 10+"px"
+            unit.style.height = 10+"px"
+            unit.style.position = "absolute"
+            unit.style.backgroundColor = "red"
+            unit.style.top = data[key].y + "px"
+            unit.style.left = data[key].x + "px"
+            unit.innerHTML = data[key].name
+            document.querySelector("#gameMap").appendChild(unit)
         }
       }
     });
-  }
 
-  createNewPlayer(){
-    if (!this.state.newPlayer){
-      var data = {
+    getMoveInfo(() => {
+      var moveData = {
         userName: this.props.userName,
         userId: this.props.userCookie,
+        move: this.state.player,
+        connection: this.state.connection
       }
-      newPlayer(data)
-      this.setState({newPlayer:true})
+      sendMoveData(moveData)
+    });
 
-      this.game = setInterval(()=>{
-        var data = {
-          userName: this.props.userName,
-          userId: this.props.userCookie,
-          move: this.state.player
-        }
-        sendMoveData(data)
-      },1000/60)
-    }
+  }
+
+  componentWillUnmount(){
+    document.removeEventListener('keydown',this.keyDown.bind(this),true)
+    document.removeEventListener('keyup',this.keyUp.bind(this),true)
+
+    disconnectGame()
   }
 
   componentDidMount(){
-    console.log("mounted!")
-    document.addEventListener('keydown',(event)=>{
-      this.listenForKey(event,true)
-    })
-    document.addEventListener('keyup',(event)=>{
-      this.listenForKey(event,false)
-    })
+    document.addEventListener('keydown',this.keyDown.bind(this),true)
+    document.addEventListener('keyup',this.keyUp.bind(this),true)
+    console.log(this.state)
   }
 
-
-  componentWillUnmount(){
-    console.log("leaving!")
-    disconnectGame()
-    this.setState({connection:false})
-    clearInterval(this.game)
-
-    //io disconnect happens here
+  createNewPlayer(){
+    var componentThis = this
+    var data = {
+      userName: this.props.userName,
+      userId: this.props.userCookie,
+    }
+    newPlayer(data)
+    this.setState({newPlayer:true})
   }
 
-  leaveGame(){
-    console.log("leaving!")
-    disconnectGame()
+  getGameState(){
+    console.log("```````````````````````````````this.state```````````````````````````````")
+    console.log(this.state)
+  }
+
+  offConnection(){
     this.setState({connection:false})
-    clearInterval(this.game)
+  }
+
+  onConnection(){
+    this.setState({connection:true})
+  }
+
+  keyUp(event){
+    this.listenForKey(event,false)
+  }
+  keyDown(event){
+    this.listenForKey(event,true)
   }
 
   listenForKey(e,type){
@@ -115,11 +121,10 @@ class Game extends React.Component {
     }
   }
 
-
   render() {
     return (
       <div>
-        <button onClick={this.leaveGame.bind(this),this.props.getScorePage.bind(this)}>Go to score</button>
+        <button onClick={this.props.getScorePage.bind(this)}>Go to score</button>
         <p>The game starts here...</p>
         <div id="gameMap" style={{position:"relative",backgroundColor:"black", height:"500px", width:"500px"}}>
 
@@ -129,16 +134,14 @@ class Game extends React.Component {
           <p className="App-intro">
             <button onClick={this.createNewPlayer.bind(this)}>Join Game</button>
           </p>
+          <button onClick={this.getGameState.bind(this)}>Get game state</button>
+          <button onClick={this.offConnection.bind(this)}>Turn off connection</button>
+          <button onClick={this.onConnection.bind(this)}>Turn on connection</button>
         </div>
       </div>
     );
   }
 }
-
-Game.propTypes = {
-  getNewUserInfo: PropTypes.func.isRequired,
-  getUserInfo: PropTypes.func.isRequired,
-};
 
 Game.propTypes = {
   getScorePage: PropTypes.func.isRequired,

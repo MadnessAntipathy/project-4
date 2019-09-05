@@ -16,13 +16,15 @@ class App extends React.Component {
       userCookie:"",
       userName:"",
       invalidLogin:"",
-      
+      uniqueKey: 0
     };
+
   }
-
-
-
-
+  componentDidMount(){
+    setInterval(()=>{
+      this.setState({uniqueKey:this.state.uniqueKey+=1})
+    },1000)
+  }
 
   getUserInfo(username,password){
     var componentThis = this
@@ -41,8 +43,9 @@ class App extends React.Component {
           login:"",
           userCookie:usableData[0].id,
           userName:usableData[0].name,
-          score: <Score getGamePage={componentThis.getGamePage.bind(componentThis)}/>,
-          invalidLogin:""
+          score: <Score key={componentThis.state.uniqueKey} getGamePage={componentThis.getGamePage.bind(componentThis)}/>,
+          invalidLogin:"",
+          // gamePage: <Game userName={usableData.name} userCookie={usableData.id} getScorePage={this.getScorePage.bind(this)}/>
         })
       }else{
         componentThis.setState({
@@ -71,8 +74,9 @@ class App extends React.Component {
         login:"",
         userCookie:usableData.id,
         userName:usableData.name,
-        score: <Score getGamePage={componentThis.getGamePage.bind(componentThis)}/>,
-        invalidLogin:""
+        score: <Score key={componentThis.state.uniqueKey} getGamePage={componentThis.getGamePage.bind(componentThis)}/>,
+        invalidLogin:"",
+        // gamePage: <Game userName={usableData.name} userCookie={usableData.id} getScorePage={this.getScorePage.bind(this)}/>
       })
     };
     var request = new XMLHttpRequest();
@@ -86,24 +90,38 @@ class App extends React.Component {
   }
 
   getGamePage(){
-    console.log(this.state)
     this.setState({
       score:"",
-      gamePage:<Game userName={this.state.userName} userCookie={this.state.userCookie} getScorePage={this.getScorePage.bind(this)}/>,
+      gamePage:<Game key={this.state.uniqueKey} userName={this.state.userName} userCookie={this.state.userCookie} getScorePage={this.getScorePage.bind(this)}/>
     })
   }
 
   getScorePage(){
     this.setState({
-      score:<Score getGamePage={this.getGamePage.bind(this)}/>,
-      gamePage:"",
+      score: <Score key={this.state.uniqueKey} getGamePage={this.getGamePage.bind(this)}/>,
+      gamePage: ""
     })
   }
 
   render() {
+    // if (this.state.login){
+    //   var login = <Login getUserInfo={this.getUserInfo.bind(this)} getNewUserInfo={this.getNewUserInfo.bind(this)}/>
+    // }else{
+    //   var login = ""
+    // }
+    // if (this.state.score){
+    //   var score = <Score getGamePage={this.getGamePage.bind(this)}/>
+    // }else{
+    //   var score = ""
+    // }
+    // if (this.state.gamePage){
+    //   var gamePage = <Game userName={this.state.userName} userCookie={this.state.userCookie} getScorePage={this.getScorePage.bind(this)}/>
+    // }else{
+    //   var gamePage = ""
+    // }
+
     return (
       <div>
-
         {this.state.login}
         {this.state.invalidLogin}
         {this.state.score}
