@@ -5,6 +5,7 @@ import Score from './components/score/score';
 import Game from './components/game/game';
 
 
+
 class App extends React.Component {
   constructor() {
     super();
@@ -14,9 +15,14 @@ class App extends React.Component {
       gamePage:"",
       userCookie:"",
       userName:"",
-      invalidLogin:""
+      invalidLogin:"",
+      
     };
   }
+
+
+
+
 
   getUserInfo(username,password){
     var componentThis = this
@@ -97,6 +103,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+
         {this.state.login}
         {this.state.invalidLogin}
         {this.state.score}

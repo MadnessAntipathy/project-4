@@ -14,11 +14,11 @@ class Score extends React.Component {
   componentDidMount(){
     var componentThis = this
     var responseHandler = function() {
-      console.log("``````````````````this.responseText``````````````````")
-      console.log(this.responseText)
+      // console.log("``````````````````this.responseText``````````````````")
+      // console.log(this.responseText)
       var usableData = JSON.parse(this.responseText)
-      console.log("``````````````````usableData``````````````````")
-      console.log(usableData)
+      // console.log("``````````````````usableData``````````````````")
+      // console.log(usableData)
       if (usableData.length > 0){
         var list = usableData.map((obj, index)=>{
           return <div key={index}>{obj.id}:{obj.name}:{obj.scores}</div>

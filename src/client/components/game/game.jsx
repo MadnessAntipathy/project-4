@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './style.scss';
+// import { subscribeToTimer } from './client';
+import { sendMoveData } from './client';
+import { updateState } from './client';
 
 class Game extends React.Component {
   constructor() {
@@ -12,8 +15,28 @@ class Game extends React.Component {
         down:false,
         left:false,
         right:false,
-      }
+      },
+      refresh: 5000,
+      timestamp: 'no timestamp yet'
     };
+    updateState((err, data) => {
+
+      while(document.querySelector("#gameMap").firstChild){
+        document.querySelector("#gameMap").removeChild(document.querySelector("#gameMap").firstChild)
+      }
+      for (var key in data){
+        if (data.hasOwnProperty(key)){
+            var unit = document.createElement("div")
+            unit.style.width = 10+"px"
+            unit.style.height = 10+"px"
+            unit.style.position = "absolute"
+            unit.style.backgroundColor = "red"
+            unit.style.top = data[key].y + "px"
+            unit.style.left = data[key].x + "px"
+            document.querySelector("#gameMap").appendChild(unit)
+        }
+      }
+    });
   }
 
   componentDidMount(){
@@ -24,14 +47,20 @@ class Game extends React.Component {
     document.addEventListener('keyup',(event)=>{
       this.listenForKey(event,false)
     })
-    setInterval(()=>{
-      //emitting starts here
-      console.log(this.state.player)
-    },1000)
+    this.game = setInterval(()=>{
+      var data = {
+        userName: this.props.userName,
+        userId: this.props.userCookie,
+        move: this.state.player
+      }
+      sendMoveData(data)
+    },1000/60)
   }
+
 
   componentWillUnmount(){
     console.log("leaving!")
+    clearInterval(this.game)
     //io disconnect happens here
   }
 
@@ -57,6 +86,7 @@ class Game extends React.Component {
         state.player.right=type
       })
     }
+
   }
 
 
@@ -65,7 +95,15 @@ class Game extends React.Component {
       <div>
         <button onClick={this.props.getScorePage.bind(this)}>Go to score</button>
         <p>The game starts here...</p>
+        <div id="gameMap" style={{position:"relative",backgroundColor:"black", height:"500px", width:"500px"}}>
 
+        </div>
+
+        <div className="App">
+          <p className="App-intro">
+          This is the timer value from SOCKET IO: {this.state.timestamp}
+          </p>
+        </div>
       </div>
     );
   }
