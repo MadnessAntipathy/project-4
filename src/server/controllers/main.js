@@ -60,7 +60,6 @@ module.exports = (db) => {
             }
             // response.clearCookie('id', {path:'/'})
             // response.clearCookie('user_name', {path:'/'})
-            // response.render('pokemon/show', { pokemon: pokemon });
             response.send(info)
           }
         }

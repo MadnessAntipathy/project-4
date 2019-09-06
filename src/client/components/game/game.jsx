@@ -6,7 +6,7 @@ import openSocket from 'socket.io-client';
 import { sendMoveData } from './client';
 import { updateState } from './client';
 import { newPlayer } from './client';
-// import { getMoveInfo } from './client';
+import { getScore } from './client';
 import { disconnectGame } from './client';
 
 class Game extends React.Component {
@@ -65,25 +65,30 @@ class Game extends React.Component {
           }
         }
       }
-      var showList = this.state.playerList.map((obj)=>{
-        return <p>user:{obj.name} score:{obj.score}</p>
+      var showList = this.state.playerList.map((obj, index)=>{
+        return <p key={index}>user:{obj.name} score:{obj.score}</p>
       })
       this.setState({displayList: showList})
     });
 
+    getScore((data)=>{
 
-// <p>user:{data[key].name} score:{data[key].score}</p>
+      var jsonData = JSON.stringify(data)
+      var responseHandler = function() {
 
-    // getMoveInfo(() => {
-    //   var moveData = {
-    //     userName: this.props.userName,
-    //     userId: this.props.userCookie,
-    //     move: this.state.player,
-    //     connection: this.state.connection
-    //   }
-    //   sendMoveData(moveData)
-    // });
+      };
+      var request = new XMLHttpRequest();
+      request.addEventListener("load", responseHandler);
+      var url = "/submitScore";
+      request.open("POST", url);
+      request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+      request.send("data="+jsonData);
 
+
+
+      console.log(data)
+
+    })
   }
 
   componentWillUnmount(){

@@ -28,9 +28,6 @@ class App extends React.Component {
     }
     var jsonData = JSON.stringify(data)
     var responseHandler = function() {
-      // console.log("response text", this.responseText);
-      // console.log("status text", this.statusText);
-      // console.log("status code", this.status);
       var usableData = JSON.parse(this.responseText)
       if (usableData.length > 0){
         componentThis.setState({
@@ -98,21 +95,6 @@ class App extends React.Component {
   }
 
   render() {
-    // if (this.state.login){
-    //   var login = <Login getUserInfo={this.getUserInfo.bind(this)} getNewUserInfo={this.getNewUserInfo.bind(this)}/>
-    // }else{
-    //   var login = ""
-    // }
-    // if (this.state.score){
-    //   var score = <Score getGamePage={this.getGamePage.bind(this)}/>
-    // }else{
-    //   var score = ""
-    // }
-    // if (this.state.gamePage){
-    //   var gamePage = <Game userName={this.state.userName} userCookie={this.state.userCookie} getScorePage={this.getScorePage.bind(this)}/>
-    // }else{
-    //   var gamePage = ""
-    // }
 
     return (
       <div>

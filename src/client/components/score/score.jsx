@@ -9,7 +9,9 @@ class Score extends React.Component {
     super();
     this.state = {
       scoreList: [],
-      displayList: []
+      displayList: [],
+      myList: [],
+      showMyList:[]
     };
   }
 
@@ -39,8 +41,10 @@ class Score extends React.Component {
     return (
       <div>
         <button onClick={this.props.getGamePage.bind(this)}>Go to game</button>
-        <h1>Score will be displayed below here!</h1>
+        <h1>Overall Score will be displayed below here!</h1>
         {this.state.displayList}
+        <h1>This is my score!</h1>
+        {this.state.showMyList}
       </div>
     );
   }

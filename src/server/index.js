@@ -60,7 +60,6 @@ setInterval(()=>{
   if (playerArray.length > 0){
     if (globalCount/60 % 2 === 0){
       logic.spawnEnemy()
-      // console.log(objects)
     }
     logic.enemyMove()
   }
@@ -70,8 +69,13 @@ setInterval(()=>{
     globalCount = 0
   }
   logic.detectCollision()
+
   io.sockets.emit('state', objects)
 },1000/60)
+module.exports.getDeadPlayer = function(info){
+  console.log(info)
+  io.to(`${info.id}`).emit('score', info);
+}
 //////////////////////GLOBAL VARIABLES//////////////////////
 
 
@@ -82,6 +86,7 @@ io.on('connection', (client) => {
   client.on('newPlayer',(info)=>{
     let newPlayer = {
       name: info.userName,
+      userId: info.userId,
       id: client.id,
       type: "player",
       score: 0,
@@ -117,10 +122,6 @@ io.on('connection', (client) => {
   client.on('disconnectClient', ()=>{
     playerArray.pop()
     delete objects[client.id]
-    // client.disconnect()
-    console.log("client disconnected")
-    // client.client.connect()
-    console.log("client connected")
   })
 
 });

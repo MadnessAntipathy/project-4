@@ -1,3 +1,5 @@
+const index = require('../index.js');
+
 const objects = {}
 const playerArray = []
 
@@ -205,7 +207,8 @@ module.exports.detectCollision = function (){
           }
         }else if (array[j].type === 'enemy'){
           if (array[i].x+10 > array[j].x && array[i].x < array[j].x+10 && array[i].y+10 > array[j].y && array[i].y < array[j].y+10){
-            console.log("die!")
+            var wrapper = array[i].id
+            index.getDeadPlayer(objects[array[i].id])
             delete objects[array[i].id]
             playerArray.pop()
           }
