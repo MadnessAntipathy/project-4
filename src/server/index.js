@@ -87,6 +87,7 @@ io.on('connection', (client) => {
       score: 0,
       x:250,
       y:250,
+
     }
     playerArray.push(newPlayer)
     logic.createPlayerObject(newPlayer)
@@ -96,15 +97,19 @@ io.on('connection', (client) => {
       var player = objects[client.id] || {}
       if (info.move.up && player.y > 0){
         player.y-=5;
+
       }
       if (info.move.down && player.y + 10 < 500){
         player.y+=5;
+
       }
       if (info.move.left && player.x > 0){
         player.x-=5;
+
       }
       if (info.move.right && player.x + 10 < 500){
         player.x+=5;
+        
       }
   });
 
