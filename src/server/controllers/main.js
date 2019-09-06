@@ -14,8 +14,8 @@ module.exports = (db) => {
           }else{
 
             // console.log(info)
-            response.cookie('id',info.id)
-            response.cookie('username',info.name)
+            response.cookie('id',info[0].id)
+            response.cookie('username',info[0].name)
             // response.clearCookie('id', {path:'/'})
             // response.clearCookie('user_name', {path:'/'})
             // response.render('pokemon/show', { pokemon: pokemon });
@@ -55,8 +55,8 @@ module.exports = (db) => {
             response.send('not found');
           }else{
             // console.log(info)
-            response.cookie('id',info.id)
-            response.cookie('username',info.name)
+            response.cookie('id',info[0].id)
+            response.cookie('username',info[0].name)
             // response.clearCookie('id', {path:'/'})
             // response.clearCookie('user_name', {path:'/'})
             // response.render('pokemon/show', { pokemon: pokemon });

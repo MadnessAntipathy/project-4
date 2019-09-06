@@ -16,10 +16,10 @@ function sendMoveData(cb) {
 }
 export { sendMoveData };
 
-function getMoveInfo(cb){
-  socket.on('getMoveInfo', data=>cb())
-}
-export { getMoveInfo };
+// function getMoveInfo(cb){
+//   socket.on('getMoveInfo', data=>cb())
+// }
+// export { getMoveInfo };
 
 function disconnectGame(){
   socket.emit('disconnectClient')

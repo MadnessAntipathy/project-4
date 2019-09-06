@@ -39,6 +39,7 @@ class Score extends React.Component {
     return (
       <div>
         <button onClick={this.props.getGamePage.bind(this)}>Go to game</button>
+        <h1>Score will be displayed below here!</h1>
         {this.state.displayList}
       </div>
     );

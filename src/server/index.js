@@ -49,28 +49,51 @@ const io = require('socket.io')(server, { wsEngine: 'ws' });
 const port = 8000;
 io.listen(port);
 
+//////////////////////GLOBAL VARIABLES//////////////////////
+var playerArray = logic.returnArrayList()
+var objects = logic.returnObjectList()
+// var playerArray = []
+var globalCount = 0
+setInterval(()=>{
+  globalCount++
+  //if there are players in game
+  if (playerArray.length > 0){
+    if (globalCount/60 % 2 === 0){
+      logic.spawnEnemy()
+      // console.log(objects)
+    }
+    logic.enemyMove()
+  }
+  //if there are no players in game
+  if (playerArray.length === 0){
+    logic.clearObjectList()
+    globalCount = 0
+  }
+  logic.detectCollision()
+  io.sockets.emit('state', objects)
+},1000/60)
+//////////////////////GLOBAL VARIABLES//////////////////////
+
+
+
+
 io.on('connection', (client) => {
-  var newInterval;
+
   client.on('newPlayer',(info)=>{
-    logic.player[client.id]={
+    let newPlayer = {
       name: info.userName,
+      id: client.id,
+      type: "player",
+      score: 0,
       x:250,
       y:250,
     }
-    clearInterval(newInterval)
-    console.log("resetting interval")
-    newInterval = setInterval(()=>{
-      console.log(logic.player)
-      io.sockets.emit('state', logic.player)
-      io.sockets.emit('getMoveInfo', logic.player)
-      if (Object.entries(logic.player).length === 0){
-        clearInterval(newInterval)
-      }
-    },1000/60)
+    playerArray.push(newPlayer)
+    logic.createPlayerObject(newPlayer)
   })
 
   client.on('sendMoveData', (info)=>{
-      var player = logic.player[client.id] || {}
+      var player = objects[client.id] || {}
       if (info.move.up && player.y > 0){
         player.y-=5;
       }
@@ -86,7 +109,8 @@ io.on('connection', (client) => {
   });
 
   client.on('disconnectClient', ()=>{
-    delete logic.player[client.id]
+    playerArray.pop()
+    delete objects[client.id]
     // client.disconnect()
     console.log("client disconnected")
     // client.client.connect()
