@@ -63,63 +63,138 @@ module.exports.detectCollision = function (){
       for (var j = 0; j < array.length; j++){
         if (array[j].type === 'player' && array[i].id !== array[j].id){
           if (array[i].x+10 > array[j].x && array[i].x < array[j].x+10 && array[i].y+10 > array[j].y && array[i].y < array[j].y+10){
-            // var movement = {
-            //   up: false,
-            //   down: false,
-            //   left: false,
-            //   right: false
-            // }
-            // if (array[i].x+10 > array[j].x){
-            //   move.right = true
-            // }
-            // if (array[i].x < array[j].x+10){
-            //   move.left = true
-            // }
-            // if (array[i].y+10 > array[j].y){
-            //   move.down = true
-            // }
-            // if (array[i].y < array[j].y+10){
-            //   move.up = true
-            // }
 
-            // objects[array[i].id].isMovable = false
-            // objects[array[j].id].isMovable = true
-            // if (array[i].lastDirection === "up"){
-            //   console.log(objects[array[j].id])
-            //   objects[array[i].id].y += 5
-            //   objects[array[j].id].y -= 10
-            // }else if (array[i].lastDirection === "down"){
-            //   console.log(objects[array[j].id])
-            //   objects[array[i].id].y -= 5
-            //   objects[array[j].id].y += 10
-            // }else if (array[i].lastDirection === "left"){
-            //   console.log(objects[array[j].id])
-            //   objects[array[i].id].x += 5
-            //   objects[array[j].id].x -= 10
-            // }else if (array[i].lastDirection === "right"){
-            //   console.log(objects[array[j].id])
-            //   objects[array[i].id].x -= 5
-            //   objects[array[j].id].x += 10
-            // }
+            if (objects[array[i].id].lastDirection === "up" && objects[array[j].id].lastDirection === "up"){
+              if (objects[array[j].id].y-20 >= 0){
+                objects[array[i].id].y += 10
+                objects[array[j].id].y -= 20
+              }else{
+                objects[array[i].id].y += 10
+              }
+            }
+            if (objects[array[i].id].lastDirection === "up" && objects[array[j].id].lastDirection === "down"){
+              if (objects[array[j].id].y-20 >= 0){
+                objects[array[i].id].y += 20
+                objects[array[j].id].y -= 20
+              }else{
+                objects[array[i].id].y += 20
+              }
+            }
+            if (objects[array[i].id].lastDirection === "up" && objects[array[j].id].lastDirection === "left"){
+              if (objects[array[j].id].y-20 >= 0){
+                objects[array[i].id].y += 10
+                objects[array[j].id].y -= 20
+              }else{
+                objects[array[i].id].y += 10
+              }
+            }
+            if (objects[array[i].id].lastDirection === "up" && objects[array[j].id].lastDirection === "right"){
+              if (objects[array[j].id].y-20 >= 0){
+                objects[array[i].id].y += 10
+                objects[array[j].id].y -= 20
+              }else{
+                objects[array[i].id].y += 10
+              }
+            }
 
-              //determine direction to push other object
-            if (array[i].x+10 > array[j].x && array[j].x+20+10 <= 500){
-              objects[array[i].id].x -= 10
-              objects[array[j].id].x += 20
+            if (objects[array[i].id].lastDirection === "down" && objects[array[j].id].lastDirection === "up"){
+              if (objects[array[j].id].y+10+20 <= 500){
+                objects[array[i].id].y -= 20
+                objects[array[j].id].y += 20
+              }else{
+                objects[array[i].id].y -= 20
+              }
             }
-            if (array[i].x < array[j].x+10 && array[j].x-20 >= 0){
-              objects[array[i].id].x += 10
-              objects[array[j].id].x -= 20
+            if (objects[array[i].id].lastDirection === "down" && objects[array[j].id].lastDirection === "down"){
+              if (objects[array[j].id].y+10+20 <= 500){
+                objects[array[i].id].y -= 10
+                objects[array[j].id].y += 20
+              }else{
+                objects[array[i].id].y -= 10
+              }
             }
-            if (array[i].y+10 > array[j].y && array[j].y+20+10 <= 500){
-              objects[array[i].id].y -= 10
-              objects[array[j].id].y += 20
+            if (objects[array[i].id].lastDirection === "down" && objects[array[j].id].lastDirection === "left"){
+              if (objects[array[j].id].y+10+20 <= 500){
+                objects[array[i].id].y -= 10
+                objects[array[j].id].y += 20
+              }else{
+                objects[array[i].id].y -= 10
+              }
             }
-            if (array[i].y < array[j].y+10 && array[j].y-20 >= 0){
-              objects[array[i].id].y += 10
-              objects[array[j].id].y -= 20
+            if (objects[array[i].id].lastDirection === "down" && objects[array[j].id].lastDirection === "right"){
+              if (objects[array[j].id].y+10+20 <= 500){
+                objects[array[i].id].y -= 10
+                objects[array[j].id].y += 20
+              }else{
+                objects[array[i].id].y -= 10
+              }
             }
-            // objects[array[j].id].isMovable = false
+
+            if (objects[array[i].id].lastDirection === "left" && objects[array[j].id].lastDirection === "up"){
+              if (objects[array[j].id].x-20 >= 0){
+                objects[array[i].id].x += 10
+                objects[array[j].id].x -= 20
+              }else{
+                objects[array[i].id].x += 10
+              }
+            }
+            if (objects[array[i].id].lastDirection === "left" && objects[array[j].id].lastDirection === "down"){
+              if (objects[array[j].id].x-20 >= 0){
+                objects[array[i].id].x += 10
+                objects[array[j].id].x -= 20
+              }else{
+                objects[array[i].id].x += 10
+              }
+            }
+            if (objects[array[i].id].lastDirection === "left" && objects[array[j].id].lastDirection === "left"){
+              if (objects[array[j].id].x-20 >= 0){
+                objects[array[i].id].x += 10
+                objects[array[j].id].x -= 20
+              }else{
+                objects[array[i].id].x += 10
+              }
+            }
+            if (objects[array[i].id].lastDirection === "left" && objects[array[j].id].lastDirection === "right"){
+              if (objects[array[j].id].x-20 >= 0){
+                objects[array[i].id].x += 20
+                objects[array[j].id].x -= 20
+              }else{
+                objects[array[i].id].x += 20
+              }
+            }
+
+            if (objects[array[i].id].lastDirection === "right" && objects[array[j].id].lastDirection === "up"){
+              if (objects[array[j].id].x+10+20 <= 500){
+                objects[array[i].id].x -= 10
+                objects[array[j].id].x += 20
+              }else{
+                objects[array[i].id].x -= 10
+              }
+            }
+            if (objects[array[i].id].lastDirection === "right" && objects[array[j].id].lastDirection === "down"){
+              if (objects[array[j].id].x+10+20 <= 500){
+                objects[array[i].id].x -= 10
+                objects[array[j].id].x += 20
+              }else{
+                objects[array[i].id].x -= 10
+              }
+            }
+            if (objects[array[i].id].lastDirection === "right" && objects[array[j].id].lastDirection === "left"){
+              if (objects[array[j].id].x+10+20 <= 500){
+                objects[array[i].id].x -= 20
+                objects[array[j].id].x += 20
+              }else{
+                objects[array[i].id].x -= 20
+              }
+            }
+            if (objects[array[i].id].lastDirection === "right" && objects[array[j].id].lastDirection === "right"){
+              if (objects[array[j].id].x+10+20 <= 500){
+                objects[array[i].id].x -= 10
+                objects[array[j].id].x += 20
+              }else{
+                objects[array[i].id].x -= 10
+              }
+            }
           }
         }else if (array[j].type === 'enemy'){
           if (array[i].x+10 > array[j].x && array[i].x < array[j].x+10 && array[i].y+10 > array[j].y && array[i].y < array[j].y+10){
