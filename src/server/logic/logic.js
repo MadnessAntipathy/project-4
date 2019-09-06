@@ -45,6 +45,13 @@ module.exports.enemyMove = function(){
         }
         if (objects[key].y >= objects[key].endY){
           delete objects[key]
+          for (var keyEntry in objects){
+            if (objects.hasOwnProperty(keyEntry)){
+              if (objects[keyEntry].type === 'player'){
+                objects[keyEntry].score+=1
+              }
+            }
+          }
         }
       }
     }

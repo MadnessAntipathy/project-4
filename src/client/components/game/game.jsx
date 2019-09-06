@@ -15,6 +15,7 @@ class Game extends React.Component {
     super();
     this.state = {
       playerList: [],
+      displayList: [],
       player:{
         up:false,
         down:false,
@@ -49,6 +50,7 @@ class Game extends React.Component {
             unit.style.left = data[key].x + "px"
             unit.innerHTML = data[key].name
             document.querySelector("#gameMap").appendChild(unit)
+            this.setState({playerList:[data[key], ...this.state.playerList]})
           }
           if (data[key].type === 'enemy'){
             var unit = document.createElement("div")
@@ -61,10 +63,16 @@ class Game extends React.Component {
             // unit.innerHTML = data[key].name
             document.querySelector("#gameMap").appendChild(unit)
           }
-          this.setState({playerList:<p>user:{data[key].name} score:{data[key].score}</p>, ...this.state.playerList})
         }
       }
+      var showList = this.state.playerList.map((obj)=>{
+        return <p>user:{obj.name} score:{obj.score}</p>
+      })
+      this.setState({displayList: showList})
     });
+
+
+// <p>user:{data[key].name} score:{data[key].score}</p>
 
     // getMoveInfo(() => {
     //   var moveData = {
@@ -158,7 +166,7 @@ class Game extends React.Component {
         </div>
         <div>
         <h1>List of players</h1>
-          {this.state.playerList}
+          {this.state.displayList}
         </div>
         <div className="App">
           <p className="App-intro">

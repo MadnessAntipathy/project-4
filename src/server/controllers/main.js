@@ -54,9 +54,10 @@ module.exports = (db) => {
             response.status(404);
             response.send('not found');
           }else{
-            // console.log(info)
-            response.cookie('id',info[0].id)
-            response.cookie('username',info[0].name)
+            if (info.length > 0){
+              response.cookie('id',info[0].id)
+              response.cookie('username',info[0].name)
+            }
             // response.clearCookie('id', {path:'/'})
             // response.clearCookie('user_name', {path:'/'})
             // response.render('pokemon/show', { pokemon: pokemon });
