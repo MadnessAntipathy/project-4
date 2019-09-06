@@ -21,7 +21,7 @@ class Score extends React.Component {
       var usableData = JSON.parse(this.responseText)
       if (usableData.length > 0){
         var list = usableData.map((obj, index)=>{
-          return <div key={index}>{obj.id}:{obj.name}:{obj.scores}</div>
+          return <div key={index} id={obj.id} style={{border:"1px solid black"}}><div style={{display:"inline-block"}}>{obj.name}</div><div style={{display:"inline-block"}}>{obj.scores}</div></div>
         })
         componentThis.setState({
           scoreList:usableData,
@@ -40,9 +40,11 @@ class Score extends React.Component {
   render() {
     return (
       <div>
-        <h1>Overall Score will be displayed below here!</h1>
+        <h1>Top 10 Player Scores!</h1>
+        <div style={{display:"flex", flexDirection:"row"}}>
         {this.state.displayList}
-        <h1>This is my score!</h1>
+        </div>
+        <h1>These are my best scores!</h1>
         {this.state.showMyList}
       </div>
     );
@@ -50,7 +52,7 @@ class Score extends React.Component {
 }
 
 Score.propTypes = {
-  
+
 };
 
 export default Score;

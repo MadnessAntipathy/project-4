@@ -10,9 +10,12 @@ import { disconnectGame } from './client';
 
 class Game extends React.Component {
 
+
   constructor() {
     super();
     this.state = {
+      joinGame: <button onClick={this.createNewPlayer.bind(this)}>Join Game</button>,
+      leaveGame: "",
       playerList: [],
       displayList: [],
       player:{
@@ -73,6 +76,10 @@ class Game extends React.Component {
       var jsonData = JSON.stringify(data)
       var responseHandler = function() {
         var usableData = JSON.parse(this.responseText)
+        componentThis.setState({
+          joinGame: <button onClick={componentThis.createNewPlayer.bind(componentThis)}>Join Game</button>,
+          leaveGame: "",
+        })
       };
       var request = new XMLHttpRequest();
       request.addEventListener("load", responseHandler);
@@ -95,10 +102,18 @@ class Game extends React.Component {
       userId: this.props.userCookie,
     }
     newPlayer(data)
+    this.setState({
+      joinGame: "",
+      leaveGame: <button onClick={this.deletePlayer.bind(this)}>Leave Game</button>,
+    })
   }
 
   deletePlayer(){
     disconnectGame()
+    this.setState({
+      joinGame: <button onClick={this.createNewPlayer.bind(this)}>Join Game</button>,
+      leaveGame: "",
+    })
   }
 
   keyUp(event){
@@ -145,8 +160,8 @@ class Game extends React.Component {
         </div>
         <div className="App">
           <p className="App-intro">
-            <button onClick={this.createNewPlayer.bind(this)}>Join Game</button>
-            <button onClick={this.deletePlayer.bind(this)}>Leave Game</button>
+            {this.state.joinGame}
+            {this.state.leaveGame}
           </p>
         </div>
       </div>
