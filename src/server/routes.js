@@ -3,5 +3,6 @@ module.exports = (app, db) => {
   app.post('/create', main.create);
   app.post('/login', main.login);
   app.get('/score', main.score);
+  app.post('/submitscore', main.submit);
 
 };

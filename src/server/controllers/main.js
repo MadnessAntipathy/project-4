@@ -66,10 +66,34 @@ module.exports = (db) => {
       });
   };
 
+  let submit = (request, response) => {
+
+      db.database.submit(request.body, (error, info) => {
+        if (error) {
+          console.error('error getting pokemon', error);
+          response.status(500);
+          response.send('server error');
+        } else {
+          if( info === null ){
+            response.status(404);
+            response.send('not found');
+          }else{
+            if (info.length > 0){
+              response.cookie('id',info[0].id)
+              response.cookie('username',info[0].name)
+            }
+
+            response.send(info)
+          }
+        }
+      });
+  };
+
   return {
     create : create,
     score: score,
     login: login,
+    submit: submit,
   }
 
 };

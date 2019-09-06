@@ -16,8 +16,13 @@ class App extends React.Component {
       userCookie:"",
       userName:"",
       invalidLogin:"",
+      latestScore: ""
     };
 
+  }
+
+  componentDidMount(){
+    this.setState({latestScore:""})
   }
 
   getUserInfo(username,password){
@@ -34,9 +39,9 @@ class App extends React.Component {
           login:"",
           userCookie:usableData[0].id,
           userName:usableData[0].name,
-          score: <Score getGamePage={componentThis.getGamePage.bind(componentThis)}/>,
+          score: <Score userName={usableData[0].name} userCookie={usableData[0].id}/>,
           invalidLogin:"",
-          gamePage: <Game userName={usableData[0].name} userCookie={usableData[0].id} getScorePage={componentThis.getScorePage.bind(componentThis)}/>
+          gamePage: <Game userName={usableData[0].name} userCookie={usableData[0].id}/>
         })
       }else{
         componentThis.setState({
@@ -65,33 +70,22 @@ class App extends React.Component {
         login:"",
         userCookie:usableData[0].id,
         userName:usableData[0].name,
-        score: <Score getGamePage={componentThis.getGamePage.bind(componentThis)}/>,
+        score: <Score userName={usableData[0].name} userCookie={usableData[0].id}/>,
         invalidLogin:"",
-        gamePage: <Game userName={usableData[0].name} userCookie={usableData[0].id} getScorePage={componentThis.getScorePage.bind(componentThis)}/>
+        gamePage: <Game userName={usableData[0].name} userCookie={usableData[0].id}/>
       })
     };
     var request = new XMLHttpRequest();
-
     request.addEventListener("load", responseHandler);
     var url = "/create";
     request.open("POST", url);
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
     request.send("data="+jsonData);
-
   }
 
-  getGamePage(){
-    this.setState({
-      // score:"",
-      // gamePage:<Game key={this.state.uniqueKey} userName={this.state.userName} userCookie={this.state.userCookie} getScorePage={this.getScorePage.bind(this)}/>
-    })
-  }
-
-  getScorePage(){
-    this.setState({
-      // score: <Score key={this.state.uniqueKey} getGamePage={this.getGamePage.bind(this)}/>,
-      // gamePage: ""
-    })
+  getLatestScore(info){
+    console.log(info)
+    this.setState({latestScore:info[0].scores})
   }
 
   render() {

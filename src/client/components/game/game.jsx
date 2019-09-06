@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './style.scss';
 import openSocket from 'socket.io-client';
-// import { subscribeToTimer } from './client';
 import { sendMoveData } from './client';
 import { updateState } from './client';
 import { newPlayer } from './client';
@@ -22,15 +21,14 @@ class Game extends React.Component {
         left:false,
         right:false,
       },
-      newPlayer: false,
-      connection: true,
     };
+
     updateState((data) => {
       var moveData = {
         userName: this.props.userName,
         userId: this.props.userCookie,
         move: this.state.player,
-        connection: this.state.connection
+
       }
       sendMoveData(moveData)
 
@@ -60,41 +58,29 @@ class Game extends React.Component {
             unit.style.backgroundColor = "pink"
             unit.style.top = data[key].y + "px"
             unit.style.left = data[key].x + "px"
-            // unit.innerHTML = data[key].name
             document.querySelector("#gameMap").appendChild(unit)
           }
         }
       }
       var showList = this.state.playerList.map((obj, index)=>{
-        return <p key={index}>user:{obj.name} score:{obj.score}</p>
+        return <div key={index} style={{display:"inline-block"}}><p>Player:{obj.name}</p><p>Score:{obj.score}</p></div>
       })
       this.setState({displayList: showList})
     });
 
     getScore((data)=>{
-
+      var componentThis = this
       var jsonData = JSON.stringify(data)
       var responseHandler = function() {
-
+        var usableData = JSON.parse(this.responseText)
       };
       var request = new XMLHttpRequest();
       request.addEventListener("load", responseHandler);
-      var url = "/submitScore";
+      var url = "/submitscore";
       request.open("POST", url);
       request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
       request.send("data="+jsonData);
-
-
-
-      console.log(data)
-
     })
-  }
-
-  componentWillUnmount(){
-    // document.removeEventListener('keydown',this.keyDown.bind(this),true)
-    // document.removeEventListener('keyup',this.keyUp.bind(this),true)
-    // disconnectGame()
   }
 
   componentDidMount(){
@@ -104,30 +90,15 @@ class Game extends React.Component {
   }
 
   createNewPlayer(){
-    var componentThis = this
     var data = {
       userName: this.props.userName,
       userId: this.props.userCookie,
     }
     newPlayer(data)
-    this.setState({newPlayer:true})
   }
 
   deletePlayer(){
     disconnectGame()
-  }
-
-  getGameState(){
-    console.log("```````````````````````````````this.state```````````````````````````````")
-    console.log(this.state)
-  }
-
-  offConnection(){
-    this.setState({connection:false})
-  }
-
-  onConnection(){
-    this.setState({connection:true})
   }
 
   keyUp(event){
@@ -164,7 +135,6 @@ class Game extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={this.props.getScorePage.bind(this)}>Go to score</button>
         <p>The game starts here...</p>
         <div id="gameMap" style={{position:"relative",backgroundColor:"black", height:"500px", width:"500px"}}>
 
@@ -178,9 +148,6 @@ class Game extends React.Component {
             <button onClick={this.createNewPlayer.bind(this)}>Join Game</button>
             <button onClick={this.deletePlayer.bind(this)}>Leave Game</button>
           </p>
-          <button onClick={this.getGameState.bind(this)}>Get game state</button>
-          <button onClick={this.offConnection.bind(this)}>Turn off connection</button>
-          <button onClick={this.onConnection.bind(this)}>Turn on connection</button>
         </div>
       </div>
     );
@@ -188,7 +155,6 @@ class Game extends React.Component {
 }
 
 Game.propTypes = {
-  getScorePage: PropTypes.func.isRequired,
 };
 
 export default Game;

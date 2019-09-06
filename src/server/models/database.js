@@ -47,9 +47,24 @@ module.exports = (dbPoolInstance) => {
     });
   };
 
+  let submit = (info, callback) => {
+    var usableData  = JSON.parse(info.data)
+    let queryString = "INSERT INTO scores (userid,scores) VALUES ($1,$2) RETURNING *;"
+    let values = [usableData.userId,usableData.score]
+    dbPoolInstance.query(queryString, values, (error, queryResult) => {
+      if( error ){
+        console.log("query error", error)
+        callback(error, null);
+      }else{
+        callback(null, queryResult.rows);
+      }
+    });
+  };
+
   return {
     create,
     score,
     login,
+    submit,
   };
 };
