@@ -42,14 +42,25 @@ class Game extends React.Component {
       for (var key in data){
         if (data.hasOwnProperty(key)){
           if (data[key].type === 'player'){
+            console.log(data[key])
             var unit = document.createElement("div")
+            unit.style.boxSizing = "border-box"
+            unit.style.borderRadius = "25%"
+            unit.style.maxWidth = 10+"px"
             unit.style.width = 10+"px"
+            unit.style.maxHeight = 10+"px"
             unit.style.height = 10+"px"
             unit.style.position = "absolute"
-            unit.style.backgroundColor = "red"
+            unit.style.textAlign = "center"
+            unit.style.color ="white"
+            if (data[key].userId === this.props.userCookie){
+              unit.style.backgroundColor = "green"
+            }else{
+              unit.style.backgroundColor = "blue"
+            }
+            unit.style.margin = "0 auto"
             unit.style.top = data[key].y + "px"
             unit.style.left = data[key].x + "px"
-            unit.innerHTML = data[key].name
             document.querySelector("#gameMap").appendChild(unit)
             this.setState({playerList:[data[key], ...this.state.playerList]})
           }
@@ -58,7 +69,7 @@ class Game extends React.Component {
             unit.style.width = 10+"px"
             unit.style.height = 10+"px"
             unit.style.position = "absolute"
-            unit.style.backgroundColor = "pink"
+            unit.style.backgroundColor = "red"
             unit.style.top = data[key].y + "px"
             unit.style.left = data[key].x + "px"
             document.querySelector("#gameMap").appendChild(unit)
@@ -151,7 +162,7 @@ class Game extends React.Component {
     return (
       <div>
         <p>The game starts here...</p>
-        <div id="gameMap" style={{position:"relative",backgroundColor:"black", height:"500px", width:"500px"}}>
+        <div id="gameMap" style={{position:"relative",backgroundColor:"black", height:"500px", width:"500px", overflow:"hidden"}}>
 
         </div>
         <div>

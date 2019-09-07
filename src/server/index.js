@@ -61,7 +61,7 @@ setInterval(()=>{
   //if there are players in game
   if (playerArray.length > 0){
     if (globalCount/60 % 1 === 0){
-      logic.spawnEnemy(speed, multiplier)
+      // logic.spawnEnemy(speed, multiplier)
       if (globalCount/60 % 5 === 0){
         console.log("INCREASING SPEED AND MULTIPLIER!")
         speed++
@@ -87,9 +87,6 @@ module.exports.getDeadPlayer = function(info){
 }
 //////////////////////GLOBAL VARIABLES//////////////////////
 
-
-
-
 io.on('connection', (client) => {
 
   client.on('newPlayer',(info)=>{
@@ -111,19 +108,19 @@ io.on('connection', (client) => {
   client.on('sendMoveData', (info)=>{
       var player = objects[client.id] || {}
       if (info.move.up && player.y > 0){
-        player.y-=5;
+        player.y-=2;
         player.lastDirection = "up"
       }
       if (info.move.down && player.y + 10 < 500){
-        player.y+=5;
+        player.y+=2;
         player.lastDirection = "down"
       }
       if (info.move.left && player.x > 0){
-        player.x-=5;
+        player.x-=2;
         player.lastDirection = "left"
       }
       if (info.move.right && player.x + 10 < 500){
-        player.x+=5;
+        player.x+=2;
         player.lastDirection = "right"
       }
   });
