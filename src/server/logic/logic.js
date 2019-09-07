@@ -23,29 +23,81 @@ module.exports.clearObjectList = function(){
   }
 }
 
-module.exports.spawnEnemy = function(input){
-  var enemySpawn = {
-    id: Math.floor(Math.random()*10000),
-    type: "enemy",
-    x: 250,
-    y: 0,
-    endX: 250,
-    endY: 500
+module.exports.spawnEnemy = function(speed, multiplier){
+  for (var i = 0; i < multiplier; i++){
+    console.log("spawning enemy")
+    var randNum = Math.floor(Math.random()*10000)
+    var enemyList = [
+      {
+        id: randNum,
+        type: "enemy",
+        direction: "up",
+        speed: speed,
+        x: Math.floor(Math.random()*500),
+        y: 500,
+        endY: 0,
+        move: 0,
+        distance: 500
+      },
+      {
+        id: randNum,
+        type: "enemy",
+        direction: "down",
+        speed: speed,
+        x: Math.floor(Math.random()*500),
+        y: 0,
+        endY: 500,
+        move: 0,
+        distance: 500
+      },
+      {
+        id: randNum,
+        type: "enemy",
+        direction: "left",
+        speed: speed,
+        x: 500,
+        y: Math.floor(Math.random()*500),
+        endX: 0,
+        move: 0,
+        distance: 500
+      },
+      {
+        id: randNum,
+        type: "enemy",
+        direction: "right",
+        speed: speed,
+        x: 0,
+        y: Math.floor(Math.random()*500),
+        endX: 500,
+        move: 0,
+        distance: 500
+      },
+    ]
+    objects[randNum] = enemyList[Math.floor(Math.random()*enemyList.length)]
   }
-  objects[enemySpawn.id] = enemySpawn
 }
 
 module.exports.enemyMove = function(){
   for (var key in objects){
     if (objects.hasOwnProperty(key)){
-      // if (enemy[key].startX < enemy[key].endX){
-      //   enemy[key].startX -= 5
-      // }
       if (objects[key].type === "enemy"){
-        if (objects[key].y < objects[key].endY){
-          objects[key].y += 1
+        if (objects[key].direction === "up"){
+          objects[key].y -= objects[key].speed
+          objects[key].move += objects[key].speed
         }
-        if (objects[key].y >= objects[key].endY){
+        if (objects[key].direction === "down"){
+          objects[key].y += objects[key].speed
+          objects[key].move += objects[key].speed
+        }
+        if (objects[key].direction === "left"){
+          objects[key].x -= objects[key].speed
+          objects[key].move += objects[key].speed
+        }
+        if (objects[key].direction === "right"){
+          objects[key].x += objects[key].speed
+          objects[key].move += objects[key].speed
+        }
+        if (objects[key].move >= objects[key].distance){
           delete objects[key]
           for (var keyEntry in objects){
             if (objects.hasOwnProperty(keyEntry)){

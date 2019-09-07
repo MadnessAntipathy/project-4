@@ -54,12 +54,19 @@ var playerArray = logic.returnArrayList()
 var objects = logic.returnObjectList()
 // var playerArray = []
 var globalCount = 0
+var speed = 1
+var multiplier = 1
 setInterval(()=>{
   globalCount++
   //if there are players in game
   if (playerArray.length > 0){
-    if (globalCount/60 % 2 === 0){
-      logic.spawnEnemy()
+    if (globalCount/60 % 1 === 0){
+      logic.spawnEnemy(speed, multiplier)
+      if (globalCount/60 % 5 === 0){
+        console.log("INCREASING SPEED AND MULTIPLIER!")
+        speed++
+        multiplier++
+      }
     }
     logic.enemyMove()
   }
@@ -67,6 +74,8 @@ setInterval(()=>{
   if (playerArray.length === 0){
     logic.clearObjectList()
     globalCount = 0
+    speed = 1
+    multiplier = 1
   }
   logic.detectCollision()
 
