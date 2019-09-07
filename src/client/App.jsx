@@ -10,19 +10,17 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      login:<Login getUserInfo={this.getUserInfo.bind(this)} getNewUserInfo={this.getNewUserInfo.bind(this)}/>,
-      score:"",
-      gamePage:"",
+      isLoggedIn: false,
       userCookie:"",
       userName:"",
       invalidLogin:"",
-      latestScore: ""
+      latestScore: 0,
+      globalScore: "",
     };
-
   }
 
-  componentDidMount(){
-    this.setState({latestScore:""})
+  getLatestScore(info){
+    this.setState({latestScore:info[0].scores})
   }
 
   getUserInfo(username,password){
@@ -36,12 +34,11 @@ class App extends React.Component {
       var usableData = JSON.parse(this.responseText)
       if (usableData.length > 0){
         componentThis.setState({
+          isLoggedIn: true,
           login:"",
           userCookie:usableData[0].id,
           userName:usableData[0].name,
-          score: <Score userName={usableData[0].name} userCookie={usableData[0].id}/>,
           invalidLogin:"",
-          gamePage: <Game userName={usableData[0].name} userCookie={usableData[0].id}/>
         })
       }else{
         componentThis.setState({
@@ -67,12 +64,11 @@ class App extends React.Component {
     var responseHandler = function() {
       var usableData = JSON.parse(this.responseText)
       componentThis.setState({
+        isLoggedIn: true,
         login:"",
         userCookie:usableData[0].id,
         userName:usableData[0].name,
-        score: <Score userName={usableData[0].name} userCookie={usableData[0].id}/>,
         invalidLogin:"",
-        gamePage: <Game userName={usableData[0].name} userCookie={usableData[0].id}/>
       })
     };
     var request = new XMLHttpRequest();
@@ -83,22 +79,28 @@ class App extends React.Component {
     request.send("data="+jsonData);
   }
 
-  getLatestScore(info){
-    console.log(info)
-    this.setState({latestScore:info[0].scores})
-  }
-
-  render() {
-
+  returnGame(){
     return (
       <div>
-        {this.state.login}
+      <Game getLatestScore={this.getLatestScore.bind(this)} userName={this.state.userName} userCookie={this.state.userCookie}/>
+      <Score latestScore={this.state.latestScore} globalScore={this.state.globalScore} userName={this.state.userName} userCookie={this.state.userCookie}/>
+      </div>
+    )
+  }
+
+
+  render() {
+    if (this.state.isLoggedIn){
+      var display = this.returnGame()
+    }else{
+      var display = <Login getUserInfo={this.getUserInfo.bind(this)} getNewUserInfo={this.getNewUserInfo.bind(this)}/>
+    }
+    return (
+      <div style={{display:"flex", flexDirection:"column", justifyContent:"center", width:"50%",margin:"0 auto"}}>
+        {display}
         {this.state.invalidLogin}
-        {this.state.score}
-        {this.state.gamePage}
       </div>
     );
   }
 }
-
 export default hot(module)(App);

@@ -1,17 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './style.scss';
-import { reconnectGame } from '../game/client';
+
 
 
 class Score extends React.Component {
   constructor() {
     super();
     this.state = {
+      toggleScore: true,
       scoreList: [],
       displayList: [],
       myList: [],
-      showMyList:[]
+      showMyList:[],
+      display: "",
     };
   }
 
@@ -21,11 +23,11 @@ class Score extends React.Component {
       var usableData = JSON.parse(this.responseText)
       if (usableData.length > 0){
         var list = usableData.map((obj, index)=>{
-          return <div key={index} id={obj.id} style={{border:"1px solid black"}}><div style={{display:"inline-block"}}>{obj.name}</div><div style={{display:"inline-block"}}>{obj.scores}</div></div>
+          return <tr key={index}><td>{obj.name}</td><td></td><td>{obj.scores}</td></tr>
         })
         componentThis.setState({
           scoreList:usableData,
-          displayList: list
+          displayList: list,
         })
       }
     };
@@ -37,22 +39,53 @@ class Score extends React.Component {
     request.send();
   }
 
+  toggleScore(){
+    this.setState({
+      toggleScore: !this.state.toggleScore
+    })
+    if (this.state.toggleScore){
+      this.setState({
+        display: <table cellPadding="10">
+        <thead>
+          <tr><th colSpan="3"><h1>Top 10 Player Scores!</h1></th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Player Name</td><td></td><td>Score</td></tr>
+          {this.state.displayList}
+        </tbody>
+        </table>
+      })
+    }else {
+      this.setState({
+        display: <table cellPadding="10">
+        <thead>
+          <tr><th colSpan="3"><h1>These are my best scores!</h1></th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Score</td><td></td><td>Played on</td></tr>
+          {this.state.showMyList}
+        </tbody>
+        </table>
+      })
+    }
+  }
+
   render() {
     return (
-      <div>
-        <h1>Top 10 Player Scores!</h1>
-        <div style={{display:"flex", flexDirection:"row"}}>
-        {this.state.displayList}
-        </div>
-        <h1>These are my best scores!</h1>
-        {this.state.showMyList}
+      <div style={{textAlign:"center"}}>
+        My latest score<br/><br/><br/>
+        {this.props.latestScore}
+        <br/><br/><br/>
+        <button onClick={this.toggleScore.bind(this)}>Toggle Global and Player Score</button>
+        {this.state.display}
       </div>
+
     );
   }
 }
 
 Score.propTypes = {
-
+  latestScore: PropTypes.number.isRequired,
 };
 
 export default Score;

@@ -61,7 +61,7 @@ setInterval(()=>{
   //if there are players in game
   if (playerArray.length > 0){
     if (globalCount/60 % 1 === 0){
-      // logic.spawnEnemy(speed, multiplier)
+      logic.spawnEnemy(speed, multiplier)
       if (globalCount/60 % 5 === 0){
         console.log("INCREASING SPEED AND MULTIPLIER!")
         speed++

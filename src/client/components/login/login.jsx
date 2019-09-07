@@ -38,7 +38,7 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{width:"100%", margin:"0 auto", textAlign:"center"}}>
         <label>Username:</label>
         <input type="text" onChange={this.getUser.bind(this)}></input><br/>
         <label>Password:</label>

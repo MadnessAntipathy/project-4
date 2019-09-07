@@ -42,7 +42,6 @@ class Game extends React.Component {
       for (var key in data){
         if (data.hasOwnProperty(key)){
           if (data[key].type === 'player'){
-            console.log(data[key])
             var unit = document.createElement("div")
             unit.style.boxSizing = "border-box"
             unit.style.borderRadius = "25%"
@@ -77,7 +76,7 @@ class Game extends React.Component {
         }
       }
       var showList = this.state.playerList.map((obj, index)=>{
-        return <div key={index} style={{display:"inline-block"}}><p>Player:{obj.name}</p><p>Score:{obj.score}</p></div>
+        return  <tr key={index}><td>{obj.name}</td><td></td><td>{obj.score}</td></tr>
       })
       this.setState({displayList: showList})
     });
@@ -87,6 +86,7 @@ class Game extends React.Component {
       var jsonData = JSON.stringify(data)
       var responseHandler = function() {
         var usableData = JSON.parse(this.responseText)
+        componentThis.props.getLatestScore(usableData)
         componentThis.setState({
           joinGame: <button onClick={componentThis.createNewPlayer.bind(componentThis)}>Join Game</button>,
           leaveGame: "",
@@ -161,19 +161,26 @@ class Game extends React.Component {
   render() {
     return (
       <div>
-        <p>The game starts here...</p>
-        <div id="gameMap" style={{position:"relative",backgroundColor:"black", height:"500px", width:"500px", overflow:"hidden"}}>
-
-        </div>
-        <div>
-        <h1>List of players</h1>
-          {this.state.displayList}
-        </div>
-        <div className="App">
-          <p className="App-intro">
-            {this.state.joinGame}
-            {this.state.leaveGame}
-          </p>
+        <p>May the best player win...</p>
+        <div style={{display: "flex", flexDirection:"row", textAlign:"center"}}>
+          <div>
+            <div id="gameMap" style={{position:"relative",backgroundColor:"black", minHeight:"500px", minWidth:"500px", overflow:"hidden"}}></div>
+            <div className="App" style={{textAlign:"center"}}>
+                {this.state.joinGame}
+                {this.state.leaveGame}
+            </div>
+          </div>
+          <div style={{minHeight:"200px", minWidth:"200px"}}>
+            <table cellPadding="10">
+            <thead>
+              <tr><th colSpan="3">Player List</th></tr>
+              <tr><td>Player Name</td><td></td><td>Score</td></tr>
+            </thead>
+            <tbody>
+              {this.state.displayList}
+            </tbody>
+            </table>
+          </div>
         </div>
       </div>
     );
@@ -181,6 +188,7 @@ class Game extends React.Component {
 }
 
 Game.propTypes = {
+  // sendLatestScore:PropTypes.func.isRequired,
 };
 
 export default Game;

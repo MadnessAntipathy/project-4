@@ -6,4 +6,6 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS scores (
   id SERIAL PRIMARY KEY,
   userid INTEGER,
-  scores INTEGER);
+  scores INTEGER,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+);
