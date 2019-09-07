@@ -38,8 +38,8 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div style={{verticalAlign:"middle",color:"white",display:"flex",flexDirection:"column",minWidth:"80%",width:"100%", padding:"5%",margin:"0 auto", textAlign:"center", border:"1px solid black", borderRadius:"25px"}}>
-        <div>
+      <div style={{verticalAlign:"middle",color:"white",display:"flex",flexDirection:"column",minWidth:"50%",padding:"0",margin:"0 auto", textAlign:"center", border:"1px solid black", borderRadius:"25px"}}>
+        <div style={{margin:"5%"}}>
           <h2>Already have an account? Lets play!</h2>
           <label>Username:</label>
           <input type="text" onChange={this.getUser.bind(this)}></input><br/>
@@ -47,7 +47,7 @@ class Login extends React.Component {
           <input type="password" onChange={this.getPass.bind(this)}></input><br/>
           <button onClick={this.props.getUserInfo.bind(this,this.state.username,this.state.password)}>Login</button><br/><br/>
         </div>
-        <div>
+        <div style={{margin:"5%"}}>
           <h2>Create a new account</h2>
           <label>Username:</label>
           <input type="text" onChange={this.newUser.bind(this)}></input><br/>

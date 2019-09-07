@@ -161,8 +161,8 @@ class Game extends React.Component {
   render() {
     return (
       <div>
-        <p>May the best player survive...</p>
-        <div style={{display: "flex", flexDirection:"row", textAlign:"center"}}>
+        <h1>May the best player survive...</h1>
+        <div style={{display: "flex", flexDirection:"row", justifyContent:"space-around"}}>
           <div>
             <div id="gameMap" style={{position:"relative",backgroundColor:"black", minHeight:"500px", minWidth:"500px", overflow:"hidden"}}></div>
             <div className="App" style={{textAlign:"center"}}>
@@ -170,7 +170,7 @@ class Game extends React.Component {
                 {this.state.leaveGame}
             </div>
           </div>
-          <div style={{minHeight:"200px", minWidth:"200px"}}>
+          <div style={{minHeight:"200px", minWidth:"200px", backgroundColor:"rgba(20,20,20,0.5)",borderRadius:"25px"}}>
             <table cellPadding="10">
             <thead>
               <tr><th colSpan="3">Player List</th></tr>

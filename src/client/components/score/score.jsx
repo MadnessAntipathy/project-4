@@ -85,17 +85,6 @@ class Score extends React.Component {
             display: componentThis.returnPersonalScore()
           })
         }
-        // componentThis.setState({
-        //   display: <table cellPadding="10" key={Math.floor(Math.random()*10)}>
-        //   <thead>
-        //     <tr><th colSpan="3"><h1>Top 50 Player Scores!</h1></th></tr>
-        //   </thead>
-        //   <tbody>
-        //     <tr><td>Player Name</td><td></td><td>Score</td></tr>
-        //     {componentThis.state.displayList}
-        //   </tbody>
-        //   </table>,
-        // })
       }
     };
     var request = new XMLHttpRequest();
@@ -152,9 +141,9 @@ class Score extends React.Component {
 
   render() {
     return (
-      <div style={{textAlign:"center"}}>
-        My latest score<br/><br/><br/>
-        {this.props.latestScore}
+      <div style={{textAlign:"center", marginTop:"10%"}}>
+        <h2>My latest score</h2><br/><br/><br/>
+        <h3>{this.props.latestScore}</h3>
         <br/><br/><br/>
         <button onClick={this.toggleScore.bind(this)}>Toggle Global and Player Score</button>
         <div style={{height:"300px", overflowY:"scroll"}}>

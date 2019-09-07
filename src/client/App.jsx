@@ -81,7 +81,7 @@ class App extends React.Component {
 
   returnGame(){
     return (
-      <div>
+      <div style={{border:"1px solid black", borderRadius:"25px", margin:"5%", padding:"5%", backgroundColor:"rgba(50,50,50,0.5)"}}>
       <Game getLatestScore={this.getLatestScore.bind(this)} userName={this.state.userName} userCookie={this.state.userCookie}/>
       <Score latestScore={this.state.latestScore} globalScore={this.state.globalScore} userName={this.state.userName} userCookie={this.state.userCookie}/>
       </div>
@@ -100,7 +100,7 @@ class App extends React.Component {
       this.setState({invalidLogin:false})
     }
     return (
-      <div style={{borderRadius:"25px",backgroundColor:"brown",display:"flex", flexDirection:"column", alignItems:"center",justifyContent:"center", height:"100vh",width:"50%",margin:"0 auto"}}>
+      <div style={{backgroundColor:"rgba(100,100,100,0.5)",display:"flex", flexDirection:"column", alignItems:"center",justifyContent:"center", minHeight:"100vh",width:"100%",margin:"0 auto"}}>
         {display}
       </div>
     );
