@@ -35,6 +35,15 @@ class Score extends React.Component {
             displayList: list,
             showMyList: showMyList,
           })
+          if (componentThis.state.toggleScore){
+            componentThis.setState({
+              display: componentThis.returnGlobalScore()
+            })
+          }else {
+            componentThis.setState({
+              display: componentThis.returnPersonalScore()
+            })
+          }
         }
       };
       var request = new XMLHttpRequest();
@@ -67,17 +76,26 @@ class Score extends React.Component {
           displayList: list,
           showMyList: showMyList,
         })
-        componentThis.setState({
-          display: <table cellPadding="10" key={Math.floor(Math.random()*10)}>
-          <thead>
-            <tr><th colSpan="3"><h1>Top 50 Player Scores!</h1></th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Player Name</td><td></td><td>Score</td></tr>
-            {componentThis.state.displayList}
-          </tbody>
-          </table>,
-        })
+        if (componentThis.state.toggleScore){
+          componentThis.setState({
+            display: componentThis.returnGlobalScore()
+          })
+        }else {
+          componentThis.setState({
+            display: componentThis.returnPersonalScore()
+          })
+        }
+        // componentThis.setState({
+        //   display: <table cellPadding="10" key={Math.floor(Math.random()*10)}>
+        //   <thead>
+        //     <tr><th colSpan="3"><h1>Top 50 Player Scores!</h1></th></tr>
+        //   </thead>
+        //   <tbody>
+        //     <tr><td>Player Name</td><td></td><td>Score</td></tr>
+        //     {componentThis.state.displayList}
+        //   </tbody>
+        //   </table>,
+        // })
       }
     };
     var request = new XMLHttpRequest();
@@ -88,33 +106,46 @@ class Score extends React.Component {
     request.send();
   }
 
+  returnGlobalScore(){
+    return(
+      <table cellPadding="10" key={Math.floor(Math.random()*10)}>
+      <thead>
+        <tr><th colSpan="3"><h1>Top 50 Player Scores!</h1></th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Player Name</td><td></td><td>Score</td></tr>
+        {this.state.displayList}
+      </tbody>
+      </table>
+    )
+  }
+
+  returnPersonalScore(){
+    return(
+      <table cellPadding="10" key={Math.floor(Math.random()*10)}>
+      <thead>
+        <tr><th colSpan="3"><h1>My All Time Best</h1></th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Score</td><td></td><td>Played on</td></tr>
+        {this.state.showMyList}
+      </tbody>
+      </table>
+    )
+  }
+
   toggleScore(){
     this.setState({
       toggleScore: !this.state.toggleScore
     })
     if (this.state.toggleScore){
       this.setState({
-        display: <table cellPadding="10" key={Math.floor(Math.random()*10)}>
-        <thead>
-          <tr><th colSpan="3"><h1>Top 50 Player Scores!</h1></th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Player Name</td><td></td><td>Score</td></tr>
-          {this.state.displayList}
-        </tbody>
-        </table>
+        display: this.returnPersonalScore()
       })
+
     }else {
       this.setState({
-        display: <table cellPadding="10" key={Math.floor(Math.random()*10)}>
-        <thead>
-          <tr><th colSpan="3"><h1>My All Time Best</h1></th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Score</td><td></td><td>Played on</td></tr>
-          {this.state.showMyList}
-        </tbody>
-        </table>
+        display: this.returnGlobalScore()
       })
     }
   }
