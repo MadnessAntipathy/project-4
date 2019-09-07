@@ -30,7 +30,7 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
-
+app.use(express.static('public'));
 // Set react-views to be the default view engine
 const reactEngine = require('express-react-views').createEngine();
 app.set('views', __dirname + '/views');
@@ -82,8 +82,8 @@ setInterval(()=>{
   io.sockets.emit('state', objects)
 },1000/60)
 module.exports.getDeadPlayer = function(info){
-  console.log(info)
   io.to(`${info.id}`).emit('score', info);
+  io.sockets.emit('globalScore', info)
 }
 //////////////////////GLOBAL VARIABLES//////////////////////
 

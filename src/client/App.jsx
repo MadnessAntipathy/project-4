@@ -42,7 +42,7 @@ class App extends React.Component {
         })
       }else{
         componentThis.setState({
-          invalidLogin:<div><h1>Invalid Login!</h1></div>
+          invalidLogin:true
         })
       }
     };
@@ -95,10 +95,13 @@ class App extends React.Component {
     }else{
       var display = <Login getUserInfo={this.getUserInfo.bind(this)} getNewUserInfo={this.getNewUserInfo.bind(this)}/>
     }
+    if (this.state.invalidLogin){
+      alert("Sorry! Incorrect username or password!")
+      this.setState({invalidLogin:false})
+    }
     return (
-      <div style={{display:"flex", flexDirection:"column", justifyContent:"center", width:"50%",margin:"0 auto"}}>
+      <div style={{borderRadius:"25px",backgroundColor:"brown",display:"flex", flexDirection:"column", alignItems:"center",justifyContent:"center", height:"100vh",width:"50%",margin:"0 auto"}}>
         {display}
-        {this.state.invalidLogin}
       </div>
     );
   }

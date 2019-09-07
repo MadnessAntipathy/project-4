@@ -161,7 +161,7 @@ class Game extends React.Component {
   render() {
     return (
       <div>
-        <p>May the best player win...</p>
+        <p>May the best player survive...</p>
         <div style={{display: "flex", flexDirection:"row", textAlign:"center"}}>
           <div>
             <div id="gameMap" style={{position:"relative",backgroundColor:"black", minHeight:"500px", minWidth:"500px", overflow:"hidden"}}></div>

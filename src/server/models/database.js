@@ -22,7 +22,7 @@ module.exports = (dbPoolInstance) => {
   };
 
   let score = (info, callback) => {
-    let queryString = "SELECT * FROM scores INNER JOIN users ON (users.id = scores.userid) ORDER BY scores DESC LIMIT 10"
+    let queryString = "SELECT * FROM scores INNER JOIN users ON (users.id = scores.userid) ORDER BY scores DESC LIMIT 50"
     dbPoolInstance.query(queryString,(error, queryResult) => {
       if( error ){
         console.log("query error", error)

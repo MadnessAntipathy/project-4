@@ -21,6 +21,11 @@ function getScore(cb){
 }
 export { getScore };
 
+function globalScoreUpdate(cb){
+  socket.on('globalScore', data=>cb(data))
+}
+export { globalScoreUpdate };
+
 function disconnectGame(){
   socket.emit('disconnectClient')
 }
