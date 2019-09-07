@@ -142,7 +142,7 @@ class Score extends React.Component {
   render() {
     return (
       <div style={{textAlign:"center", marginTop:"10%"}}>
-        <h2>My latest score</h2><br/><br/><br/>
+        <h2>My latest score</h2>
         <h3>{this.props.latestScore}</h3>
         <br/><br/><br/>
         <button onClick={this.toggleScore.bind(this)}>Toggle Global and Player Score</button>

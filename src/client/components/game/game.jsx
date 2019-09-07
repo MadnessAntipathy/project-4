@@ -165,10 +165,6 @@ class Game extends React.Component {
         <div style={{display: "flex", flexDirection:"row", justifyContent:"space-around"}}>
           <div>
             <div id="gameMap" style={{position:"relative",backgroundColor:"black", minHeight:"500px", minWidth:"500px", overflow:"hidden"}}></div>
-            <div className="App" style={{textAlign:"center"}}>
-                {this.state.joinGame}
-                {this.state.leaveGame}
-            </div>
           </div>
           <div style={{minHeight:"200px", minWidth:"200px", backgroundColor:"rgba(20,20,20,0.5)",borderRadius:"25px"}}>
             <table cellPadding="10">
@@ -181,6 +177,10 @@ class Game extends React.Component {
             </tbody>
             </table>
           </div>
+        </div>
+        <div style={{textAlign:"center"}}>
+            {this.state.joinGame}
+            {this.state.leaveGame}
         </div>
       </div>
     );
