@@ -64,8 +64,10 @@ setInterval(()=>{
       logic.spawnEnemy(speed, multiplier)
       if (globalCount/60 % 5 === 0){
         console.log("INCREASING SPEED AND MULTIPLIER!")
-        speed++
+        speed+=0.2
         multiplier++
+        console.log("Speed is now: ", speed)
+        console.log("Multiplier is now: ", multiplier)
       }
     }
     logic.enemyMove()
@@ -82,6 +84,7 @@ setInterval(()=>{
   io.sockets.emit('state', objects)
 },1000/60)
 module.exports.getDeadPlayer = function(info){
+  console.log(info)
   io.to(`${info.id}`).emit('score', info);
   io.sockets.emit('globalScore', info)
 }
@@ -99,7 +102,6 @@ io.on('connection', (client) => {
       x:250,
       y:250,
       lastDirection: "up"
-
     }
     playerArray.push(newPlayer)
     logic.createPlayerObject(newPlayer)

@@ -71,6 +71,7 @@ class Game extends React.Component {
             unit.style.backgroundColor = "red"
             unit.style.top = data[key].y + "px"
             unit.style.left = data[key].x + "px"
+            unit.id = data[key].id
             document.querySelector("#gameMap").appendChild(unit)
           }
         }
@@ -181,6 +182,7 @@ class Game extends React.Component {
         <div style={{textAlign:"center"}}>
             {this.state.joinGame}
             {this.state.leaveGame}
+            <button onClick={()=>{window.location.reload()}}>Logout</button>
         </div>
       </div>
     );

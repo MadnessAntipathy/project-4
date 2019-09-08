@@ -11,23 +11,23 @@ class Score extends React.Component {
       toggleScore: false,
       scoreList: [],
       displayList: [],
-      myList: [],
       showMyList:[],
       display: "",
     };
     globalScoreUpdate(()=>{
 
       var componentThis = this
+      var data = {
+        userId: this.props.userCookie
+      }
+      var jsonData = JSON.stringify(data)
       var responseHandler = function() {
         var usableData = JSON.parse(this.responseText)
-        if (usableData.length > 0){
-          var list = usableData.map((obj, index)=>{
+        if (usableData.globalQuery.length > 0){
+          var list = usableData.globalQuery.map((obj, index)=>{
             return <tr key={index} style={(obj.id === componentThis.props.userCookie)?{backgroundColor:"orange"}:(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"white"} }><td>{obj.name}</td><td></td><td>{obj.scores}</td></tr>
           })
-          var myList = usableData.filter((obj)=>{
-            return obj.userid === componentThis.props.userCookie
-          })
-          var showMyList = myList.map((obj, index)=>{
+          var showMyList = usableData.personalQuery.map((obj, index)=>{
             return <tr key={index} style={(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"white"} }><td>{obj.scores}</td><td></td><td>{obj.created_at.toString()}</td></tr>
           })
           componentThis.setState({
@@ -49,9 +49,9 @@ class Score extends React.Component {
       var request = new XMLHttpRequest();
       request.addEventListener("load", responseHandler);
       var url = "/score";
-      request.open("get", url);
+      request.open("POST", url);
       request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-      request.send();
+      request.send("data="+jsonData);
     });
   }
 
@@ -59,16 +59,18 @@ class Score extends React.Component {
 
   componentDidMount(){
     var componentThis = this
+    var data = {
+      userId: this.props.userCookie
+    }
+    var jsonData = JSON.stringify(data)
     var responseHandler = function() {
       var usableData = JSON.parse(this.responseText)
-      if (usableData.length > 0){
-        var list = usableData.map((obj, index)=>{
+      console.log(usableData)
+      if (usableData.globalQuery.length > 0){
+        var list = usableData.globalQuery.map((obj, index)=>{
           return <tr key={index} style={(obj.id === componentThis.props.userCookie)?{backgroundColor:"orange"}:(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"white"} }><td>{obj.name}</td><td></td><td>{obj.scores}</td></tr>
         })
-        var myList = usableData.filter((obj)=>{
-          return obj.userid === componentThis.props.userCookie
-        })
-        var showMyList = myList.map((obj, index)=>{
+        var showMyList = usableData.personalQuery.map((obj, index)=>{
           return <tr key={index} style={(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"white"} }><td>{obj.scores}</td><td></td><td>{obj.created_at.toString()}</td></tr>
         })
         componentThis.setState({
@@ -90,9 +92,9 @@ class Score extends React.Component {
     var request = new XMLHttpRequest();
     request.addEventListener("load", responseHandler);
     var url = "/score";
-    request.open("get", url);
+    request.open("POST", url);
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-    request.send();
+    request.send("data="+jsonData);
   }
 
   returnGlobalScore(){

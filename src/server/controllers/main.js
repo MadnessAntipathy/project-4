@@ -26,7 +26,6 @@ module.exports = (db) => {
   };
 
   let score = (request, response) => {
-
       db.database.score(request.body, (error, info) => {
         if (error) {
           console.error('error getting pokemon', error);

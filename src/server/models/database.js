@@ -22,13 +22,26 @@ module.exports = (dbPoolInstance) => {
   };
 
   let score = (info, callback) => {
+    var usableData  = JSON.parse(info.data)
     let queryString = "SELECT * FROM scores INNER JOIN users ON (users.id = scores.userid) ORDER BY scores DESC LIMIT 50"
-    dbPoolInstance.query(queryString,(error, queryResult) => {
-      if( error ){
-        console.log("query error", error)
-        callback(error, null);
+    dbPoolInstance.query(queryString,(globalError, globalQuery) => {
+      if( globalError ){
+        console.log("query error", globalError)
+        callback(globalError, null);
       }else{
-        callback(null, queryResult.rows);
+        let nextQueryString = "SELECT * FROM scores INNER JOIN users ON (users.id = scores.userid) WHERE scores.userid=$1 ORDER BY scores DESC LIMIT 50"
+        let value = [usableData.userId]
+        dbPoolInstance.query(nextQueryString,value,(personalError, personalQuery)=>{
+          if (personalError){
+            callback(personalError, null);
+          }else{
+            var data = {
+              globalQuery:globalQuery.rows,
+              personalQuery:personalQuery.rows
+            }
+            callback(null, data);
+          }
+        })
       }
     });
   };
