@@ -24,68 +24,78 @@ module.exports.clearObjectList = function(){
 }
 
 module.exports.spawnEnemy = function(speed, multiplier){
-  var playerArray = Object.values(objects).filter(obj => obj.type === "player")
+  var playerList = Object.values(objects).filter(obj => obj.type === "player")
   for (var i = 0; i < multiplier; i++){
-    var randNum = Math.floor(Math.random()*100000)
-    var enemyList = [
-      {
-        id: randNum,
-        type: "enemy",
-        direction: "up",
-        speed: speed,
-        x: Math.floor(Math.random()*500),
-        y: 500,
-        endY: 0,
-        move: 0,
-        distance: 500
-      },
-      {
-        id: randNum,
-        type: "enemy",
-        direction: "down",
-        speed: speed,
-        x: Math.floor(Math.random()*500),
-        y: 0,
-        endY: 500,
-        move: 0,
-        distance: 500
-      },
-      {
-        id: randNum,
-        type: "enemy",
-        direction: "left",
-        speed: speed,
-        x: 500,
-        y: Math.floor(Math.random()*500),
-        endX: 0,
-        move: 0,
-        distance: 500
-      },
-      {
-        id: randNum,
-        type: "enemy",
-        direction: "right",
-        speed: speed,
-        x: 0,
-        y: Math.floor(Math.random()*500),
-        endX: 500,
-        move: 0,
-        distance: 500
-      },
-      {
-        id: randNum,
-        type: "enemy",
-        direction: "seeker",
-        speed: 1,
-        x: Math.floor(Math.random()*500),
-        y: Math.floor(Math.random()*500),
-        target: playerArray[Math.floor(Math.random()*playerArray.length)],
-        move: 0,
-        distance: 250
-      }
-    ]
-    objects[randNum] = enemyList[Math.floor(Math.random()*enemyList.length)]
+    var enemyObject = returnEnemyList(speed,playerList)
+    objects[enemyObject.id] = enemyObject.enemy
   }
+}
+
+function returnEnemyList (speed,playerList){
+  var randNum = Math.random()*100000
+  var enemyList = [
+    {
+      id: randNum,
+      type: "enemy",
+      direction: "up",
+      speed: speed,
+      x: Math.floor(Math.random()*500),
+      y: 500,
+      endY: 0,
+      move: 0,
+      distance: 500
+    },
+    {
+      id: randNum,
+      type: "enemy",
+      direction: "down",
+      speed: speed,
+      x: Math.floor(Math.random()*500),
+      y: 0,
+      endY: 500,
+      move: 0,
+      distance: 500
+    },
+    {
+      id: randNum,
+      type: "enemy",
+      direction: "left",
+      speed: speed,
+      x: 500,
+      y: Math.floor(Math.random()*500),
+      endX: 0,
+      move: 0,
+      distance: 500
+    },
+    {
+      id: randNum,
+      type: "enemy",
+      direction: "right",
+      speed: speed,
+      x: 0,
+      y: Math.floor(Math.random()*500),
+      endX: 500,
+      move: 0,
+      distance: 500
+    },
+    {
+      id: randNum,
+      type: "enemy",
+      direction: "seeker",
+      speed: 1,
+      x: Math.floor(Math.random()*500),
+      y: Math.floor(Math.random()*500),
+      target: playerList[Math.floor(Math.random()*playerList.length)],
+      move: 0,
+      distance: 250
+    }
+  ]
+  //do any modifiers before the 'data' object such as pushing more info into the array
+  var data = {
+    id: randNum,
+    enemy: enemyList[Math.floor(Math.random()*enemyList.length)]
+  }
+  return data
 }
 
 module.exports.enemyMove = function(){

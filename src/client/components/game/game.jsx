@@ -137,7 +137,6 @@ class Game extends React.Component {
 
   listenForKey(e,type){
     e.preventDefault()
-    console.log(e.which)
     if (e.which === 38 || e.which === 87){
       this.setState(state=>{
         state.player.up=type
