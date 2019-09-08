@@ -44,10 +44,13 @@ setupAppRoutes(app);
 
 const logic = require('./logic/logic.js');
 
-var server = require('http').createServer(app);
+var server = http.createServer(app);
 const io = require('socket.io')(server, { wsEngine: 'ws' });
-const port = 8000;
-io.listen(port);
+// const port = 3000;
+// io.listen(port);
+server.listen(process.env.PORT, () => {
+  console.log(`HTTP server is now running on http://localhost:${process.env.PORT}`);
+});
 
 //////////////////////GLOBAL VARIABLES//////////////////////
 var playerArray = logic.returnArrayList()
@@ -131,14 +134,4 @@ io.on('connection', (client) => {
     delete objects[client.id]
   })
 
-});
-
-
-
-
-
-
-
-http.createServer(app).listen(process.env.PORT, () => {
-  console.log(`HTTP server is now running on http://localhost:${process.env.PORT}`);
 });
