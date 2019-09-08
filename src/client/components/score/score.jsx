@@ -25,10 +25,10 @@ class Score extends React.Component {
         var usableData = JSON.parse(this.responseText)
         if (usableData.globalQuery.length > 0){
           var list = usableData.globalQuery.map((obj, index)=>{
-            return <tr key={index} style={(obj.id === componentThis.props.userCookie)?{backgroundColor:"orange"}:(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"white"} }><td>{obj.name}</td><td></td><td>{obj.scores}</td></tr>
+            return <tr key={index} style={(obj.id === componentThis.props.userCookie)?{backgroundColor:"orange"}:(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.name}</td><td></td><td>{obj.scores}</td></tr>
           })
           var showMyList = usableData.personalQuery.map((obj, index)=>{
-            return <tr key={index} style={(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"white"} }><td>{obj.scores}</td><td></td><td>{obj.created_at.toString()}</td></tr>
+            return <tr key={index} style={(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.scores}</td><td></td><td>{obj.created_at.toString()}</td></tr>
           })
           componentThis.setState({
             scoreList:usableData,
@@ -68,10 +68,10 @@ class Score extends React.Component {
       console.log(usableData)
       if (usableData.globalQuery.length > 0){
         var list = usableData.globalQuery.map((obj, index)=>{
-          return <tr key={index} style={(obj.id === componentThis.props.userCookie)?{backgroundColor:"orange"}:(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"white"} }><td>{obj.name}</td><td></td><td>{obj.scores}</td></tr>
+          return <tr key={index} style={(obj.id === componentThis.props.userCookie)?{backgroundColor:"orange"}:(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.name}</td><td></td><td>{obj.scores}</td></tr>
         })
         var showMyList = usableData.personalQuery.map((obj, index)=>{
-          return <tr key={index} style={(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"white"} }><td>{obj.scores}</td><td></td><td>{obj.created_at.toString()}</td></tr>
+          return <tr key={index} style={(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.scores}</td><td></td><td>{obj.created_at.toString()}</td></tr>
         })
         componentThis.setState({
           scoreList:usableData,
@@ -143,12 +143,12 @@ class Score extends React.Component {
 
   render() {
     return (
-      <div style={{textAlign:"center", marginTop:"10%"}}>
+      <div style={{textAlign:"center", marginTop:"10%", color:"white", backgroundColor:"rgba(20,20,20,0.5)", borderRadius:"25px 25px 0px 0px"}}>
         <h2>My latest score</h2>
         <h3>{this.props.latestScore}</h3>
         <br/><br/><br/>
         <button onClick={this.toggleScore.bind(this)}>Toggle Global and Player Score</button>
-        <div style={{height:"300px", overflowY:"scroll"}}>
+        <div style={{height:"300px", overflowY:"auto"}}>
           {this.state.display}
         </div>
       </div>

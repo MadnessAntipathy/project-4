@@ -71,6 +71,7 @@ setInterval(()=>{
       }
     }
     logic.enemyMove()
+    logic.detectCollision()
   }
   //if there are no players in game
   if (playerArray.length === 0){
@@ -79,8 +80,6 @@ setInterval(()=>{
     speed = 1
     multiplier = 1
   }
-  logic.detectCollision()
-
   io.sockets.emit('state', objects)
 },1000/60)
 module.exports.getDeadPlayer = function(info){

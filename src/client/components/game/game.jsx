@@ -77,7 +77,7 @@ class Game extends React.Component {
         }
       }
       var showList = this.state.playerList.map((obj, index)=>{
-        return  <tr key={index}><td>{obj.name}</td><td></td><td>{obj.score}</td></tr>
+        return  <tr key={index}><td style={{maxWidth:"100px", whiteSpace:"nowrap", overflowX:"hidden"}}>{obj.name}</td><td></td><td>{obj.score}</td></tr>
       })
       this.setState({displayList: showList})
     });
@@ -137,37 +137,41 @@ class Game extends React.Component {
 
   listenForKey(e,type){
     e.preventDefault()
-    if (e.which === 38){
+    console.log(e.which)
+    if (e.which === 38 || e.which === 87){
       this.setState(state=>{
         state.player.up=type
       })
     }
-    if (e.which === 40){
+    if (e.which === 40 || e.which === 83){
       this.setState(state=>{
         state.player.down=type
       })
     }
-    if (e.which === 37){
+    if (e.which === 37 || e.which === 65){
       this.setState(state=>{
         state.player.left=type
       })
     }
-    if (e.which === 39){
+    if (e.which === 39 || e.which === 68){
       this.setState(state=>{
         state.player.right=type
       })
     }
+    // if (e.which === 32 ){
+    //   this.createNewPlayer()
+    // }
   }
 
   render() {
     return (
-      <div>
+      <div style={{color:"white"}}>
         <h1>May the best player survive...</h1>
         <div style={{display: "flex", flexDirection:"row", justifyContent:"space-around"}}>
           <div>
             <div id="gameMap" style={{position:"relative",backgroundColor:"black", minHeight:"500px", minWidth:"500px", overflow:"hidden"}}></div>
           </div>
-          <div style={{minHeight:"200px", minWidth:"200px", backgroundColor:"rgba(20,20,20,0.5)",borderRadius:"25px"}}>
+          <div style={{minHeight:"200px", minWidth:"200px", backgroundColor:"rgba(20,20,20,0.5)",borderRadius:"0px 25px 25px 0px", overflowY:"auto"}}>
             <table cellPadding="10">
             <thead>
               <tr><th colSpan="3">Player List</th></tr>
