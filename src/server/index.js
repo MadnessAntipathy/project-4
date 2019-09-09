@@ -88,9 +88,10 @@ setInterval(()=>{
 module.exports.getDeadPlayer = function(info){
   console.log(info)
   io.to(`${info.id}`).emit('score', info);
-  io.sockets.emit('globalScore', info)
+
 }
 //////////////////////GLOBAL VARIABLES//////////////////////
+
 
 io.on('connection', (client) => {
 
@@ -128,6 +129,10 @@ io.on('connection', (client) => {
         player.lastDirection = "right"
       }
   });
+
+  client.on('scoreIsReady',()=>{
+    io.sockets.emit('globalScore')
+  })
 
   client.on('disconnectClient', ()=>{
     playerArray.pop()

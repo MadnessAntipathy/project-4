@@ -20,13 +20,20 @@ class Score extends React.Component {
       var jsonData = JSON.stringify(data)
       var responseHandler = function() {
         var usableData = JSON.parse(this.responseText)
-        componentThis.props.serverGlobalScore(usableData)
-        if (usableData.globalQuery.length > 0){
-          var globalList = usableData.globalQuery.map((obj, index)=>{
-            return <tr key={index} style={(obj.id === componentThis.props.userCookie)?{backgroundColor:"orange"}:(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.name}</td><td></td><td>{obj.scores}</td></tr>
+        var globalList = usableData.globalQuery.map((obj, index)=>{
+          return <tr key={index} style={(obj.id === componentThis.props.userCookie)?{backgroundColor:"lightgreen"}:(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.name}</td><td></td><td>{obj.scores}</td></tr>
+        })
+        var personalList = usableData.personalQuery.map((obj, index)=>{
+          return <tr key={index} style={(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.scores}</td><td></td><td>{obj.created_at.toString()}</td></tr>
+        })
+        componentThis.props.serverGlobalScore(globalList,personalList)
+        if (componentThis.state.toggleScore){
+          componentThis.setState({
+            display: componentThis.returnPersonalScore()
           })
-          var personalList = usableData.personalQuery.map((obj, index)=>{
-            return <tr key={index} style={(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.scores}</td><td></td><td>{obj.created_at.toString()}</td></tr>
+        }else{
+          componentThis.setState({
+            display: componentThis.returnGlobalScore()
           })
         }
       };
@@ -59,7 +66,7 @@ class Score extends React.Component {
       </thead>
       <tbody>
         <tr><td>Player Name</td><td></td><td>Score</td></tr>
-        {this.props.globalScore}
+        {this.props.globalScore.length > 0 ? this.props.globalScore : null}
       </tbody>
       </table>
     )
@@ -73,7 +80,7 @@ class Score extends React.Component {
       </thead>
       <tbody>
         <tr><td>Score</td><td></td><td>Played on</td></tr>
-        {this.props.personalScore}
+        {this.props.personalScore.length > 0 ? this.props.personalScore : null}
       </tbody>
       </table>
     )
@@ -113,6 +120,9 @@ class Score extends React.Component {
 
 Score.propTypes = {
   latestScore: PropTypes.number.isRequired,
+  userCookie: PropTypes.number.isRequired,
+  globalScore: PropTypes.arrayOf(PropTypes.object).isRequired,
+  personalScore: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default Score;

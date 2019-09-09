@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './style.scss';
-import openSocket from 'socket.io-client';
 import { sendMoveData } from './client';
 import { updateState } from './client';
 import { newPlayer } from './client';
 import { getScore } from './client';
 import { disconnectGame } from './client';
+import { scoreIsReady } from './client';
 
 class Game extends React.Component {
 
@@ -111,6 +111,7 @@ class Game extends React.Component {
           joinGame: <button onClick={componentThis.createNewPlayer.bind(componentThis)}>Join Game</button>,
           leaveGame: "",
         })
+        scoreIsReady()
       };
       var request = new XMLHttpRequest();
       request.addEventListener("load", responseHandler);
@@ -212,6 +213,8 @@ class Game extends React.Component {
 }
 
 Game.propTypes = {
+  userName: PropTypes.string.isRequired,
+  userCookie: PropTypes.number.isRequired,
   // sendLatestScore:PropTypes.func.isRequired,
 };
 

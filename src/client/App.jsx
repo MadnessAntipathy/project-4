@@ -5,7 +5,6 @@ import Score from './components/score/score';
 import Game from './components/game/game';
 
 
-
 class App extends React.Component {
   constructor() {
     super();
@@ -18,10 +17,6 @@ class App extends React.Component {
       globalScore: [],
       personalScore: [],
     };
-  }
-
-  getLatestScore(info){
-    this.setState({latestScore:info[0].scores})
   }
 
   getUserInfo(username,password){
@@ -93,15 +88,11 @@ class App extends React.Component {
     )
   }
 
-  serverGlobalScore(usableData){
-    var globalList = usableData.globalQuery.map((obj, index)=>{
-      return <tr key={index} style={(obj.id === this.state.userCookie)?{backgroundColor:"orange"}:(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.name}</td><td></td><td>{obj.scores}</td></tr>
-    })
-    var personalList = usableData.personalQuery.map((obj, index)=>{
-      return <tr key={index} style={(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.scores}</td><td></td><td>{obj.created_at.toString()}</td></tr>
-    })
-    console.log("``````````````````````````````usableData``````````````````````````````")
-    console.log(usableData)
+  getLatestScore(info){
+    this.setState({latestScore:info[0].scores})
+  }
+
+  serverGlobalScore(globalList,personalList){
     this.setState({
       globalScore:globalList,
       personalScore:personalList,
@@ -118,7 +109,7 @@ class App extends React.Component {
       var usableData = JSON.parse(this.responseText)
       if (usableData.globalQuery.length > 0){
         var globalList = usableData.globalQuery.map((obj, index)=>{
-          return <tr key={index} style={(obj.id === componentThis.state.userCookie)?{backgroundColor:"orange"}:(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.name}</td><td></td><td>{obj.scores}</td></tr>
+          return <tr key={index} style={(obj.id === componentThis.state.userCookie)?{backgroundColor:"lightgreen"}:(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.name}</td><td></td><td>{obj.scores}</td></tr>
         })
         var personalList = usableData.personalQuery.map((obj, index)=>{
           return <tr key={index} style={(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.scores}</td><td></td><td>{obj.created_at.toString()}</td></tr>
@@ -131,8 +122,8 @@ class App extends React.Component {
       }else{
         componentThis.setState({
           isLoggedIn: true,
-          globalScore:"",
-          personalScore:"",
+          globalScore:[],
+          personalScore:[],
         })
       }
     };
@@ -145,10 +136,11 @@ class App extends React.Component {
   }
 
   render() {
+    var display;
     if (this.state.isLoggedIn){
-      var display = this.returnGame()
+      display = this.returnGame()
     }else{
-      var display = <Login getUserInfo={this.getUserInfo.bind(this)} getNewUserInfo={this.getNewUserInfo.bind(this)}/>
+      display = <Login getUserInfo={this.getUserInfo.bind(this)} getNewUserInfo={this.getNewUserInfo.bind(this)}/>
     }
     if (this.state.invalidLogin){
       alert("Sorry! Incorrect username or password!")

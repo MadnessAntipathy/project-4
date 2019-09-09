@@ -1,5 +1,5 @@
 import openSocket from 'socket.io-client';
-const socket = openSocket('http://192.168.173.63:3000');
+const socket = openSocket('localhost:3000');
 
 function updateState(cb){
   socket.on('state', data=>cb(data))
@@ -21,8 +21,13 @@ function getScore(cb){
 }
 export { getScore };
 
+function scoreIsReady(){
+  socket.emit('scoreIsReady')
+}
+export { scoreIsReady };
+
 function globalScoreUpdate(cb){
-  socket.on('globalScore', data=>cb(data))
+  socket.on('globalScore', ()=>cb())
 }
 export { globalScoreUpdate };
 
