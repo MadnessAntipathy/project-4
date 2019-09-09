@@ -9,11 +9,9 @@ class Score extends React.Component {
     super();
     this.state = {
       toggleScore: false,
-      scoreList: [],
-      displayList: [],
-      showMyList:[],
       display: "",
     };
+
     globalScoreUpdate(()=>{
       var componentThis = this
       var data = {
@@ -22,27 +20,13 @@ class Score extends React.Component {
       var jsonData = JSON.stringify(data)
       var responseHandler = function() {
         var usableData = JSON.parse(this.responseText)
+        componentThis.props.serverGlobalScore(usableData)
         if (usableData.globalQuery.length > 0){
-          var list = usableData.globalQuery.map((obj, index)=>{
+          var globalList = usableData.globalQuery.map((obj, index)=>{
             return <tr key={index} style={(obj.id === componentThis.props.userCookie)?{backgroundColor:"orange"}:(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.name}</td><td></td><td>{obj.scores}</td></tr>
           })
-          var showMyList = usableData.personalQuery.map((obj, index)=>{
+          var personalList = usableData.personalQuery.map((obj, index)=>{
             return <tr key={index} style={(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.scores}</td><td></td><td>{obj.created_at.toString()}</td></tr>
-          })
-          componentThis.setState({
-            scoreList:usableData,
-            displayList: list,
-            showMyList: showMyList,
-          },()=>{
-            if (componentThis.state.toggleScore){
-              componentThis.setState({
-                display: componentThis.returnGlobalScore()
-              })
-            }else {
-              componentThis.setState({
-                display: componentThis.returnPersonalScore()
-              })
-            }
           })
         }
       };
@@ -55,45 +39,16 @@ class Score extends React.Component {
     });
   }
 
-
-
   componentDidMount(){
-    var componentThis = this
-    var data = {
-      userId: this.props.userCookie
+    if (this.state.toggleScore){
+      this.setState({
+        display: this.returnPersonalScore()
+      })
+    }else{
+      this.setState({
+        display: this.returnGlobalScore()
+      })
     }
-    var jsonData = JSON.stringify(data)
-    var responseHandler = function() {
-      var usableData = JSON.parse(this.responseText)
-      if (usableData.globalQuery.length > 0){
-        var list = usableData.globalQuery.map((obj, index)=>{
-          return <tr key={index} style={(obj.id === componentThis.props.userCookie)?{backgroundColor:"orange"}:(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.name}</td><td></td><td>{obj.scores}</td></tr>
-        })
-        var showMyList = usableData.personalQuery.map((obj, index)=>{
-          return <tr key={index} style={(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.scores}</td><td></td><td>{obj.created_at.toString()}</td></tr>
-        })
-        componentThis.setState({
-          scoreList:usableData,
-          displayList: list,
-          showMyList: showMyList,
-        })
-        if (componentThis.state.toggleScore){
-          componentThis.setState({
-            display: componentThis.returnGlobalScore()
-          })
-        }else {
-          componentThis.setState({
-            display: componentThis.returnPersonalScore()
-          })
-        }
-      }
-    };
-    var request = new XMLHttpRequest();
-    request.addEventListener("load", responseHandler);
-    var url = "/score";
-    request.open("POST", url);
-    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-    request.send("data="+jsonData);
   }
 
   returnGlobalScore(){
@@ -104,7 +59,7 @@ class Score extends React.Component {
       </thead>
       <tbody>
         <tr><td>Player Name</td><td></td><td>Score</td></tr>
-        {this.state.displayList}
+        {this.props.globalScore}
       </tbody>
       </table>
     )
@@ -118,7 +73,7 @@ class Score extends React.Component {
       </thead>
       <tbody>
         <tr><td>Score</td><td></td><td>Played on</td></tr>
-        {this.state.showMyList}
+        {this.props.personalScore}
       </tbody>
       </table>
     )
@@ -130,24 +85,23 @@ class Score extends React.Component {
     })
     if (this.state.toggleScore){
       this.setState({
-        display: this.returnPersonalScore()
+        display: this.returnGlobalScore()
       })
-
     }else {
       this.setState({
-        display: this.returnGlobalScore()
+        display: this.returnPersonalScore()
       })
     }
   }
 
   render() {
+
     return (
       <div className={styles.scoreContainer}>
         <h2>My latest score</h2>
         <h3>{this.props.latestScore}</h3>
         <br/><br/><br/>
         <button onClick={this.toggleScore.bind(this)}>Toggle Global and Player Score</button>
-
         <div className={styles.displayScores}>
           {this.state.display}
         </div>

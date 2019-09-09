@@ -34,7 +34,6 @@ class Game extends React.Component {
 
       }
       sendMoveData(moveData)
-
       this.setState({playerList:[]})
       while(document.querySelector("#gameMap").firstChild){
         document.querySelector("#gameMap").removeChild(document.querySelector("#gameMap").firstChild)
@@ -66,7 +65,7 @@ class Game extends React.Component {
             this.setState({playerList:[data[key], ...this.state.playerList]})
           }
           if (data[key].type === 'enemy'){
-            var unit = document.createElement("div")
+            unit = document.createElement("div")
             unit.style.width = 10+"px"
             unit.style.height = 10+"px"
             unit.style.zIndex = 2
@@ -82,7 +81,7 @@ class Game extends React.Component {
             document.querySelector("#gameMap").appendChild(unit)
           }
           if (data[key].type === 'warning'){
-            var unit = document.createElement("div")
+            unit = document.createElement("div")
             unit.style.position = "absolute"
             unit.style.top = data[key].y +"px"
             unit.style.left = data[key].x +"px"
