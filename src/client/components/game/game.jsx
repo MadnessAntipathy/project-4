@@ -72,7 +72,7 @@ class Game extends React.Component {
             unit.style.zIndex = 2
             unit.style.position = "absolute"
             if (data[key].direction === "seeker"){
-              unit.style.backgroundColor = "purple"  
+              unit.style.backgroundColor = "purple"
             }else{
               unit.style.backgroundColor = "red"
             }
@@ -184,13 +184,13 @@ class Game extends React.Component {
 
   render() {
     return (
-      <div style={{color:"white"}}>
+      <div className={styles.gameContainer}>
         <h1>May the best player survive...</h1>
-        <div style={{display: "flex", flexDirection:"row", justifyContent:"space-around"}}>
+        <div className={styles.gameDetailsContainer}>
           <div>
-            <div id="gameMap" style={{position:"relative",backgroundColor:"black", minHeight:"500px", minWidth:"500px", overflow:"hidden"}}></div>
+            <div id="gameMap" style={{position:"relative",backgroundColor:"black",minHeight:"500px",minWidth:"500px",overflow:"hidden"}}></div>
           </div>
-          <div style={{minHeight:"200px", minWidth:"200px", backgroundColor:"rgba(20,20,20,0.5)",borderRadius:"0px 25px 25px 0px", overflowY:"auto"}}>
+          <div className={styles.playerDetailsContainer}>
             <table cellPadding="10">
             <thead>
               <tr><th colSpan="3">Player List</th></tr>
@@ -202,7 +202,7 @@ class Game extends React.Component {
             </table>
           </div>
         </div>
-        <div style={{textAlign:"center"}}>
+        <div className={styles.joinState}>
             {this.state.joinGame}
             {this.state.leaveGame}
             <button onClick={()=>{window.location.reload()}}>Logout</button>

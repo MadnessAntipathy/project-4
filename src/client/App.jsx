@@ -100,7 +100,7 @@ class App extends React.Component {
       this.setState({invalidLogin:false})
     }
     return (
-      <div style={{backgroundColor:"rgba(100,100,100,0.5)",display:"flex", flexDirection:"column", alignItems:"center",justifyContent:"center", minHeight:"100vh",width:"100%",margin:"0 auto"}}>
+      <div style={{backgroundColor:"rgba(100,100,100,0.5)",display:"flex", flexDirection:"column", alignItems:"center",justifyContent:"center", minHeight:"100vh",width:"100%",margin:"0 auto", position:"relative"}}>
         {display}
       </div>
     );

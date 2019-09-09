@@ -1,4 +1,35 @@
-.name{
-  padding:5px;
-  margin:20px;
+.gameContainer{
+  color: white;
+  position: relative;
+  width: 100%;
+}
+
+.gameDetailsContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+#gameMap{
+  position:relative;
+  background-color: black;
+  min-height: 500px;
+  min-width: 500px;
+  overflow:hidden;
+}
+
+.playerDetailsContainer{
+  min-height: 200px;
+  min-width: 200px;
+  background-color: rgba(20,20,20,0.5);
+  border-radius: 0px 25px 25px 0px;
+  overflow-Y: auto;
+}
+
+.joinState{
+  margin: 10%;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }

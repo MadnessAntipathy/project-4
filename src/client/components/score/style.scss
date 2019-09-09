@@ -1,4 +1,16 @@
-.name{
-  padding:5px;
-  margin:20px;
+.scoreContainer{
+  text-align: center;
+  padding: 5%;
+  margin-top: 10%;
+  color: white;
+  background-color: rgba(20,20,20,0.5);
+  border-radius:25px;
+}
+
+.displayScores{
+  height: 300px;
+  margin: 50px auto;
+  overflow-Y: auto;
+  display: flex; 
+  flex-direction: column;
 }

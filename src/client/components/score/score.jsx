@@ -15,7 +15,6 @@ class Score extends React.Component {
       display: "",
     };
     globalScoreUpdate(()=>{
-
       var componentThis = this
       var data = {
         userId: this.props.userCookie
@@ -34,16 +33,17 @@ class Score extends React.Component {
             scoreList:usableData,
             displayList: list,
             showMyList: showMyList,
+          },()=>{
+            if (componentThis.state.toggleScore){
+              componentThis.setState({
+                display: componentThis.returnGlobalScore()
+              })
+            }else {
+              componentThis.setState({
+                display: componentThis.returnPersonalScore()
+              })
+            }
           })
-          if (componentThis.state.toggleScore){
-            componentThis.setState({
-              display: componentThis.returnGlobalScore()
-            })
-          }else {
-            componentThis.setState({
-              display: componentThis.returnPersonalScore()
-            })
-          }
         }
       };
       var request = new XMLHttpRequest();
@@ -65,7 +65,6 @@ class Score extends React.Component {
     var jsonData = JSON.stringify(data)
     var responseHandler = function() {
       var usableData = JSON.parse(this.responseText)
-      console.log(usableData)
       if (usableData.globalQuery.length > 0){
         var list = usableData.globalQuery.map((obj, index)=>{
           return <tr key={index} style={(obj.id === componentThis.props.userCookie)?{backgroundColor:"orange"}:(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.name}</td><td></td><td>{obj.scores}</td></tr>
@@ -143,12 +142,13 @@ class Score extends React.Component {
 
   render() {
     return (
-      <div style={{textAlign:"center", marginTop:"10%", color:"white", backgroundColor:"rgba(20,20,20,0.5)", borderRadius:"25px 25px 0px 0px"}}>
+      <div className={styles.scoreContainer}>
         <h2>My latest score</h2>
         <h3>{this.props.latestScore}</h3>
         <br/><br/><br/>
         <button onClick={this.toggleScore.bind(this)}>Toggle Global and Player Score</button>
-        <div style={{height:"300px", overflowY:"auto"}}>
+
+        <div className={styles.displayScores}>
           {this.state.display}
         </div>
       </div>
