@@ -3,7 +3,7 @@ import { hot } from 'react-hot-loader';
 import Login from './components/login/login';
 import Score from './components/score/score';
 import Game from './components/game/game';
-
+var moment = require('moment');
 
 class App extends React.Component {
   constructor() {
@@ -112,7 +112,7 @@ class App extends React.Component {
           return <tr key={index} style={(obj.id === componentThis.state.userCookie)?{backgroundColor:"lightgreen"}:(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.name}</td><td></td><td>{obj.scores}</td></tr>
         })
         var personalList = usableData.personalQuery.map((obj, index)=>{
-          return <tr key={index} style={(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.scores}</td><td></td><td>{obj.created_at.toString()}</td></tr>
+          return <tr key={index} style={(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.scores}</td><td></td><td>{moment(obj.created_at).fromNow()}</td></tr>
         })
         componentThis.setState({
           isLoggedIn: true,

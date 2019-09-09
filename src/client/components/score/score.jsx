@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './style.scss';
 import { globalScoreUpdate } from '../game/client';
-
+var moment = require('moment');
 
 class Score extends React.Component {
   constructor() {
@@ -24,7 +24,7 @@ class Score extends React.Component {
           return <tr key={index} style={(obj.id === componentThis.props.userCookie)?{backgroundColor:"lightgreen"}:(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.name}</td><td></td><td>{obj.scores}</td></tr>
         })
         var personalList = usableData.personalQuery.map((obj, index)=>{
-          return <tr key={index} style={(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.scores}</td><td></td><td>{obj.created_at.toString()}</td></tr>
+          return <tr key={index} style={(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.scores}</td><td></td><td>{moment(obj.created_at).fromNow()}</td></tr>
         })
         componentThis.props.serverGlobalScore(globalList,personalList)
         if (componentThis.state.toggleScore){
