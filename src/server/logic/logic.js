@@ -60,7 +60,7 @@ module.exports.spawnEnemy = function(speed, multiplier){
 }
 
 function returnSeeker (speed){
-  var randNum = Math.random()*100000
+  var randNum = Math.floor(Math.random()*1000000)
   return {
     id: randNum,
     type: "enemy",
@@ -75,19 +75,19 @@ function returnSeeker (speed){
 }
 
 function returnEnemyList (speed,playerList){
-  var randNum = Math.random()*1000000
+  var randNum = Math.floor(Math.random()*1000000)
   var enemyList = [
-    {
-      id: randNum,
-      type: "enemy",
-      direction: "up",
-      speed: speed,
-      x: 0,
-      y: 500,
-      endY: 0,
-      move: 0,
-      distance: 500
-    }
+    // {
+    //   id: randNum,
+    //   type: "enemy",
+    //   direction: "up",
+    //   speed: speed,
+    //   x: 0,
+    //   y: 500,
+    //   endY: 0,
+    //   move: 0,
+    //   distance: 500
+    // }
     // {
     //   id: randNum,
     //   type: "enemy",
@@ -99,50 +99,50 @@ function returnEnemyList (speed,playerList){
     //   move: 0,
     //   distance: 250
     // }
-    // {
-    //   id: randNum,
-    //   type: "enemy",
-    //   direction: "up",
-    //   speed: speed,
-    //   x: Math.floor(Math.random()*500),
-    //   y: 500,
-    //   endY: 0,
-    //   move: 0,
-    //   distance: 500
-    // },
-    // {
-    //   id: randNum,
-    //   type: "enemy",
-    //   direction: "down",
-    //   speed: speed,
-    //   x: Math.floor(Math.random()*500),
-    //   y: 0,
-    //   endY: 500,
-    //   move: 0,
-    //   distance: 500
-    // },
-    // {
-    //   id: randNum,
-    //   type: "enemy",
-    //   direction: "left",
-    //   speed: speed,
-    //   x: 500,
-    //   y: Math.floor(Math.random()*500),
-    //   endX: 0,
-    //   move: 0,
-    //   distance: 500
-    // },
-    // {
-    //   id: randNum,
-    //   type: "enemy",
-    //   direction: "right",
-    //   speed: speed,
-    //   x: 0,
-    //   y: Math.floor(Math.random()*500),
-    //   endX: 500,
-    //   move: 0,
-    //   distance: 500
-    // }
+    {
+      id: randNum,
+      type: "enemy",
+      direction: "up",
+      speed: speed,
+      x: Math.floor(Math.random()*500),
+      y: 500,
+      endY: 0,
+      move: 0,
+      distance: 500
+    },
+    {
+      id: randNum,
+      type: "enemy",
+      direction: "down",
+      speed: speed,
+      x: Math.floor(Math.random()*500),
+      y: 0,
+      endY: 500,
+      move: 0,
+      distance: 500
+    },
+    {
+      id: randNum,
+      type: "enemy",
+      direction: "left",
+      speed: speed,
+      x: 500,
+      y: Math.floor(Math.random()*500),
+      endX: 0,
+      move: 0,
+      distance: 500
+    },
+    {
+      id: randNum,
+      type: "enemy",
+      direction: "right",
+      speed: speed,
+      x: 0,
+      y: Math.floor(Math.random()*500),
+      endX: 500,
+      move: 0,
+      distance: 500
+    }
   ]
   //do any modifiers before the 'data' object such as pushing more info into the array
   var data = {
