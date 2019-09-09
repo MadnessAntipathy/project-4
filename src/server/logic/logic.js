@@ -24,71 +24,125 @@ module.exports.clearObjectList = function(){
 }
 
 module.exports.spawnEnemy = function(speed, multiplier){
+  var alertState = {
+    type: "warning",
+    color: "black",
+    x: Math.floor(Math.random()*500),
+    y: Math.floor(Math.random()*500)
+  }
+  if (multiplier % 5 === 4){
+    if (!objects["alertState"]){
+      objects["alertState"] = alertState
+    }
+    objects["alertState"].color = "yellow"
+  }else if (multiplier % 5 === 0){
+    objects["alertState"].color = "purple"
+  }else {
+    if (objects["alertState"]){
+      delete objects["alertState"]
+    }
+  }
+
   var playerList = Object.values(objects).filter(obj => obj.type === "player")
   for (var i = 0; i < multiplier; i++){
     var enemyObject = returnEnemyList(speed,playerList)
     objects[enemyObject.id] = enemyObject.enemy
   }
+  if (multiplier % 5 === 0){
+    for (var j = 0; j < playerList.length; j++){
+      var seekerObject = returnSeeker()
+      objects[seekerObject.id] = seekerObject
+      if (playerList[j]){
+        objects[seekerObject.id].target = playerList[j]
+      }
+    }
+  }
+}
+
+function returnSeeker (speed){
+  var randNum = Math.random()*100000
+  return {
+    id: randNum,
+    type: "enemy",
+    direction: "seeker",
+    speed: 1,
+    x: objects["alertState"].x,
+    y: objects["alertState"].y,
+    target: "playerList[Math.floor(Math.random()*playerList.length)]",
+    move: 0,
+    distance: 500
+  }
 }
 
 function returnEnemyList (speed,playerList){
-  var randNum = Math.random()*100000
+  var randNum = Math.random()*1000000
   var enemyList = [
     {
       id: randNum,
       type: "enemy",
       direction: "up",
       speed: speed,
-      x: Math.floor(Math.random()*500),
+      x: 0,
       y: 500,
       endY: 0,
       move: 0,
       distance: 500
-    },
-    {
-      id: randNum,
-      type: "enemy",
-      direction: "down",
-      speed: speed,
-      x: Math.floor(Math.random()*500),
-      y: 0,
-      endY: 500,
-      move: 0,
-      distance: 500
-    },
-    {
-      id: randNum,
-      type: "enemy",
-      direction: "left",
-      speed: speed,
-      x: 500,
-      y: Math.floor(Math.random()*500),
-      endX: 0,
-      move: 0,
-      distance: 500
-    },
-    {
-      id: randNum,
-      type: "enemy",
-      direction: "right",
-      speed: speed,
-      x: 0,
-      y: Math.floor(Math.random()*500),
-      endX: 500,
-      move: 0,
-      distance: 500
-    },
-    {
-      id: randNum,
-      type: "enemy",
-      direction: "seeker",
-      speed: 1,
-      x: Math.floor(Math.random()*500),
-      y: Math.floor(Math.random()*500),
-      target: playerList[Math.floor(Math.random()*playerList.length)],
-      move: 0,
-      distance: 250
     }
+    // {
+    //   id: randNum,
+    //   type: "enemy",
+    //   direction: "seeker",
+    //   speed: 1,
+    //   x: Math.floor(Math.random()*500),
+    //   y: Math.floor(Math.random()*500),
+    //   target: playerList[Math.floor(Math.random()*playerList.length)],
+    //   move: 0,
+    //   distance: 250
+    // }
+    // {
+    //   id: randNum,
+    //   type: "enemy",
+    //   direction: "up",
+    //   speed: speed,
+    //   x: Math.floor(Math.random()*500),
+    //   y: 500,
+    //   endY: 0,
+    //   move: 0,
+    //   distance: 500
+    // },
+    // {
+    //   id: randNum,
+    //   type: "enemy",
+    //   direction: "down",
+    //   speed: speed,
+    //   x: Math.floor(Math.random()*500),
+    //   y: 0,
+    //   endY: 500,
+    //   move: 0,
+    //   distance: 500
+    // },
+    // {
+    //   id: randNum,
+    //   type: "enemy",
+    //   direction: "left",
+    //   speed: speed,
+    //   x: 500,
+    //   y: Math.floor(Math.random()*500),
+    //   endX: 0,
+    //   move: 0,
+    //   distance: 500
+    // },
+    // {
+    //   id: randNum,
+    //   type: "enemy",
+    //   direction: "right",
+    //   speed: speed,
+    //   x: 0,
+    //   y: Math.floor(Math.random()*500),
+    //   endX: 500,
+    //   move: 0,
+    //   distance: 500
+    // }
   ]
   //do any modifiers before the 'data' object such as pushing more info into the array
   var data = {

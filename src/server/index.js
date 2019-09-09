@@ -67,7 +67,7 @@ setInterval(()=>{
       logic.spawnEnemy(speed, multiplier)
       if (globalCount/60 % 5 === 0){
         console.log("INCREASING SPEED AND MULTIPLIER!")
-        speed+=0.2
+        speed+=0.1
         multiplier++
         console.log("Speed is now: ", speed)
         console.log("Multiplier is now: ", multiplier)

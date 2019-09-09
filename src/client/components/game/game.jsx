@@ -41,6 +41,7 @@ class Game extends React.Component {
       }
       for (var key in data){
         if (data.hasOwnProperty(key)){
+
           if (data[key].type === 'player'){
             var unit = document.createElement("div")
             unit.style.boxSizing = "border-box"
@@ -49,6 +50,7 @@ class Game extends React.Component {
             unit.style.width = 10+"px"
             unit.style.maxHeight = 10+"px"
             unit.style.height = 10+"px"
+            unit.style.zIndex = 2
             unit.style.position = "absolute"
             unit.style.textAlign = "center"
             unit.style.color ="white"
@@ -67,11 +69,29 @@ class Game extends React.Component {
             var unit = document.createElement("div")
             unit.style.width = 10+"px"
             unit.style.height = 10+"px"
+            unit.style.zIndex = 2
             unit.style.position = "absolute"
-            unit.style.backgroundColor = "red"
+            if (data[key].direction === "seeker"){
+              unit.style.backgroundColor = "purple"  
+            }else{
+              unit.style.backgroundColor = "red"
+            }
             unit.style.top = data[key].y + "px"
             unit.style.left = data[key].x + "px"
             unit.id = data[key].id
+            document.querySelector("#gameMap").appendChild(unit)
+          }
+          if (data[key].type === 'warning'){
+            var unit = document.createElement("div")
+            unit.style.position = "absolute"
+            unit.style.top = data[key].y +"px"
+            unit.style.left = data[key].x +"px"
+            unit.style.transform = "translate(-50%,-50%)"
+            unit.style.zIndex = 1
+            unit.style.width = 50+"px"
+            unit.style.height = 50+"px"
+            unit.style.backgroundColor = data[key].color
+            unit.style.borderRadius = "50%"
             document.querySelector("#gameMap").appendChild(unit)
           }
         }
