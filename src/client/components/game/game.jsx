@@ -188,13 +188,17 @@ class Game extends React.Component {
       <div className={styles.gameContainer}>
         <div>
           <table className={styles.legend} cellPadding="5">
+          <thead>
             <tr><th width="20%">Icon</th><th width="20%">Type</th><th width="60%">Description</th></tr>
-            <tr><td><div className={styles.smallOne} style={{backgroundColor:"green"}}></div></td><td>You</td><td>This is you, there are many others like you, but you are you.</td></tr>
-            <tr><td><div className={styles.smallOne} style={{backgroundColor:"blue"}}></div></td><td>Friendly, maybe?</td><td>This is a friend, you can push your friend into the enemy and make them not your friend.</td></tr>
-            <tr><td><div className={styles.smallOne} style={{backgroundColor:"red"}}></div></td><td>Enemy</td><td>This is an enemy, touch him and you are out! You can try to push your friend into it though.</td></tr>
-            <tr><td><div className={styles.smallOne} style={{backgroundColor:"purple"}}></div></td><td>Enemy</td><td>Same as the red dude, but he will follow you for a while.</td></tr>
-            <tr><td><div className={styles.spawner} style={{backgroundColor:"yellow"}}></div></td><td>Enemy</td><td>This is where the purple ones come out. You have about 5 seconds to get away from this before it starts to spawn purples.</td></tr>
-            <tr><td><div className={styles.spawner} style={{backgroundColor:"purple"}}></div></td><td>Enemy</td><td>If you are standing next to this, RUN!!!</td></tr>
+          </thead>
+          <tbody>
+              <tr><td><div className={styles.smallOne} style={{backgroundColor:"green"}}></div></td><td>You</td><td>This is you, there are many others like you, but you are you.</td></tr>
+              <tr><td><div className={styles.smallOne} style={{backgroundColor:"blue"}}></div></td><td>Friendly, maybe?</td><td>This is a friend, you can push your friend into the enemy and make them not your friend.</td></tr>
+              <tr><td><div className={styles.smallOne} style={{backgroundColor:"red"}}></div></td><td>Enemy</td><td>This is an enemy, touch him and you are out! You can try to push your friend into it though.</td></tr>
+              <tr><td><div className={styles.smallOne} style={{backgroundColor:"purple"}}></div></td><td>Enemy</td><td>Same as the red dude, but he will follow you for a while.</td></tr>
+              <tr><td><div className={styles.spawner} style={{backgroundColor:"yellow"}}></div></td><td>Enemy</td><td>This is where the purple ones come out. You have about 5 seconds to get away from this before it starts to spawn purples.</td></tr>
+              <tr><td><div className={styles.spawner} style={{backgroundColor:"purple"}}></div></td><td>Enemy</td><td>If you are standing next to this, RUN!!!</td></tr>
+            </tbody>
           </table>
         </div>
         <h1>May the best player survive...</h1>
@@ -209,7 +213,7 @@ class Game extends React.Component {
               <tr><td>Player Name</td><td></td><td>Score</td></tr>
             </thead>
             <tbody>
-              {this.state.displayList}
+              {this.state.displayList.length > 0 ? this.state.displayList : null}
             </tbody>
             </table>
           </div>
