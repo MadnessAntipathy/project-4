@@ -1,12 +1,35 @@
-.gameContainer{
+.gameDetailsContainer{
   color: white;
   position: relative;
   width: 100%;
 }
 
-.gameDetailsContainer{
+.gameContainer{
   display: flex;
   flex-direction: row;
+  margin-bottom: 50px;
+  justify-content: center;
+}
+
+.mainGameContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.gameButton{
+  background-color: rgba(0,0,0,0.5);
+  line-height: 50px;
+  width: 150px;
+  border-radius: 25px;
+  font-weight: bold;
+}
+
+.gameButton:hover{
+  background-color: rgba(255,255,255,0.5);
+  color: black;
+  font-weight: bold;
 }
 
 #gameMap{
@@ -17,20 +40,16 @@
   overflow:hidden;
 }
 
-.playerDetailsContainer{
-  min-height: 200px;
-  min-width: 200px;
-  background-color: rgba(20,20,20,0.5);
-  border-radius: 0px 25px 25px 0px;
-  overflow-Y: auto;
-}
-
 .joinState{
   margin: 10%;
+  padding: 10px;
+  border-radius: 25px;
   text-align: center;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  flex-wrap: wrap;
+  background-color: rgba(20,20,20,0.5)
 }
 .spawner{
   border-radius:25px;
@@ -39,11 +58,67 @@
   margin: 0 auto;
 }
 
-.legend{
-
+.legendContainer{
+  width: 100%;
+  margin: 0 auto;
 }
+
+.legendaryButtonOn{
+  background-color: rgba(20, 20, 20, 0.5);
+  padding: 10px;
+  max-width:350px;
+  border-radius: 25px 25px 0px 0px;
+  font-weight: bold;
+  margin: 0 auto;
+}
+
+.legendaryButtonOff{
+  padding: 10px;
+  max-width:320px;
+  border-radius: 25px;
+  font-weight: bold;
+  background-color: black;
+  margin: 0 auto;
+}
+
+.onLegend{
+  -webkit-animation: fadeIn 1s linear;
+  animation: fadeIn 1s linear;
+  background-color: rgba(20, 20, 20, 0.5);
+  border-radius: 25px;
+  padding: 50px 0px;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+@keyframes fadeIn {
+    0% {display:none; height: 0px; opacity: 0;}
+    50% {height: 300px;}
+    100% {height: 300px; display:block; visibility:visible; opacity: 1;}
+}
+
+.offLegend{
+  -webkit-animation: fadeOut 1s forwards;
+  animation: fadeOut 1s forwards;
+  background-color: rgba(20,20,20,0.5);
+  border-radius: 25px;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+@keyframes fadeOut {
+  0% {display:block;height:300px; opacity: 1;}
+  50% {opacity:0;}
+  100% {display:none;height:0px;visibility:hidden;opacity:0;}
+}
+
 .smallOne{
   height:10px;
   width: 10px;
   margin: 0 auto;
+}
+
+.movementInstructions{
+  padding: 20px 0px;
+  text-align: center;
 }

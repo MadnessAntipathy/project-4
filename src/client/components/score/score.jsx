@@ -8,8 +8,11 @@ class Score extends React.Component {
   constructor() {
     super();
     this.state = {
-      toggleScore: false,
       display: "",
+      status: "cg",
+      current: "rgba(0,0,0,0.5)",
+      global: "",
+      personal: "",
     };
 
     globalScoreUpdate(()=>{
@@ -27,11 +30,15 @@ class Score extends React.Component {
           return <tr key={index} style={(index % 2)?{backgroundColor:"gray"}:{backgroundColor:"black"} }><td>{obj.scores}</td><td></td><td>{moment(obj.created_at).fromNow()}</td></tr>
         })
         componentThis.props.serverGlobalScore(globalList,personalList)
-        if (componentThis.state.toggleScore){
+        if (componentThis.state.status === "cg"){
+          componentThis.setState({
+            display: componentThis.returnCurrentGameScore()
+          })
+        }else if (componentThis.state.status === "ps"){
           componentThis.setState({
             display: componentThis.returnPersonalScore()
           })
-        }else{
+        }else if (componentThis.state.status === "gs"){
           componentThis.setState({
             display: componentThis.returnGlobalScore()
           })
@@ -46,15 +53,24 @@ class Score extends React.Component {
     });
   }
 
-  componentDidMount(){
-    if (this.state.toggleScore){
-      this.setState({
-        display: this.returnPersonalScore()
-      })
+  shouldComponentUpdate(previous){
+    if (this.props.currentScore === previous.currentScore){
+      return true
     }else{
-      this.setState({
-        display: this.returnGlobalScore()
-      })
+      if (this.state.status === "cg"){
+        this.setState({
+          display: this.returnCurrentGameScore()
+        })
+      }else if (this.state.status === "ps"){
+        this.setState({
+          display: this.returnPersonalScore()
+        })
+      }else if (this.state.status === "gs"){
+        this.setState({
+          display: this.returnGlobalScore()
+        })
+      }
+      return false
     }
   }
 
@@ -62,7 +78,7 @@ class Score extends React.Component {
     return(
       <table cellPadding="10" key={Math.floor(Math.random()*10)}>
       <thead>
-        <tr><th colSpan="3"><h1>Top 50 Player Scores!</h1></th></tr>
+        <tr><th colSpan="3">Top 50 Player Scores!</th></tr>
       </thead>
       <tbody>
         <tr><td>Player Name</td><td></td><td>Score</td></tr>
@@ -76,27 +92,55 @@ class Score extends React.Component {
     return(
       <table cellPadding="10" key={Math.floor(Math.random()*10)}>
       <thead>
-        <tr><th colSpan="3"><h1>My All Time Best</h1></th></tr>
+        <tr><th colSpan="3">My All Time Best</th></tr>
       </thead>
       <tbody>
-        <tr><td>Score</td><td></td><td>Played on</td></tr>
+        <tr><td>Score</td><td></td><td>Last Played</td></tr>
         {this.props.personalScore.length > 0 ? this.props.personalScore : null}
       </tbody>
       </table>
     )
   }
+  returnCurrentGameScore(){
+    return (
+        <table cellPadding="10">
+        <thead>
+          <tr><th colSpan="3">Player List</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Player Name</td><td></td><td>Score</td></tr>
+        {this.props.currentScore.length > 0 ? this.props.currentScore : null}
+        </tbody>
+        </table>
+    )
+  }
 
-  toggleScore(){
-    this.setState({
-      toggleScore: !this.state.toggleScore
-    })
-    if (this.state.toggleScore){
+  displayScore(input){
+    if(input === "cg"){
       this.setState({
-        display: this.returnGlobalScore()
+        display: this.returnCurrentGameScore(),
+        status: "cg",
+        current: "rgba(0,0,0,0.5)",
+        global: "",
+        personal: "",
       })
-    }else {
+    }
+    if(input === "gs"){
       this.setState({
-        display: this.returnPersonalScore()
+        display: this.returnGlobalScore(),
+        status: "gs",
+        current: "",
+        global: "rgba(0,0,0,0.5)",
+        personal: "",
+      })
+    }
+    if(input === "ps"){
+      this.setState({
+        display: this.returnPersonalScore(),
+        status: "ps",
+        current: "",
+        global: "",
+        personal: "rgba(0,0,0,0.5)",
       })
     }
   }
@@ -105,15 +149,17 @@ class Score extends React.Component {
 
     return (
       <div className={styles.scoreContainer}>
-        <h2>My latest score</h2>
-        <h3>{this.props.latestScore}</h3>
-        <br/><br/><br/>
-        <button onClick={this.toggleScore.bind(this)}>Toggle Global and Player Score</button>
+      <p>Your latest score: {this.props.latestScore}</p>
+      <div>
+        <div className={styles.buttonSelector} style={{backgroundColor:this.state.current}} onClick={this.displayScore.bind(this,"cg")}>Current Game</div>
+        <div className={styles.buttonSelector} style={{backgroundColor:this.state.global}} onClick={this.displayScore.bind(this,"gs")}>Global Score</div>
+        <div className={styles.buttonSelector} style={{backgroundColor:this.state.personal}} onClick={this.displayScore.bind(this,"ps")}>Personal Score</div>
+      </div>
+
         <div className={styles.displayScores}>
           {this.state.display}
         </div>
       </div>
-
     );
   }
 }
@@ -123,6 +169,7 @@ Score.propTypes = {
   userCookie: PropTypes.number.isRequired,
   globalScore: PropTypes.arrayOf(PropTypes.object).isRequired,
   personalScore: PropTypes.arrayOf(PropTypes.object).isRequired,
+  currentScore: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default Score;

@@ -1,16 +1,29 @@
 .scoreContainer{
+  padding-top: 10px;
   text-align: center;
-  padding: 5%;
-  margin-top: 10%;
+  min-width: 400px;
+  height: 100%;
   color: white;
   background-color: rgba(20,20,20,0.5);
-  border-radius:25px;
+  border-radius: 0px 25px 25px 0px;
 }
 
 .displayScores{
-  height: 300px;
-  margin: 50px auto;
+  height: 330px;
   overflow-Y: auto;
   display: flex;
   flex-direction: column;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.buttonSelector{
+  display: inline-block;
+  min-height: 50px;
+  line-height: 50px;
+  padding: 10px;
+  width: 33.33%
+}
+
+.buttonSelector:hover{
+  background-color: rgba(255,255,255,0.5)
 }

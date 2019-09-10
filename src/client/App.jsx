@@ -1,7 +1,6 @@
 import React from 'react';
 import { hot } from 'react-hot-loader';
 import Login from './components/login/login';
-import Score from './components/score/score';
 import Game from './components/game/game';
 
 var moment = require('moment');
@@ -17,6 +16,7 @@ class App extends React.Component {
       latestScore: 0,
       globalScore: [],
       personalScore: [],
+      currentScore: [],
     };
   }
 
@@ -82,11 +82,14 @@ class App extends React.Component {
 
   returnGame(){
     return (
-      <div style={{border:"1px solid black", borderRadius:"25px", margin:"5%", padding:"5%", backgroundColor:"rgba(50,50,50,0.5)"}}>
-      <Game getLatestScore={this.getLatestScore.bind(this)} userName={this.state.userName} userCookie={this.state.userCookie}/>
-      <Score serverGlobalScore={this.serverGlobalScore.bind(this)} latestScore={this.state.latestScore} personalScore={this.state.personalScore} globalScore={this.state.globalScore} userName={this.state.userName} userCookie={this.state.userCookie}/>
+      <div style={{border:"1px solid black", borderRadius:"25px", margin:"5%", padding:"5%", backgroundColor:"rgba(50,50,50,0.5)", width:"70%"}}>
+      <Game currentScore={this.state.currentScore} getCurrentScore={this.getCurrentScore.bind(this)} serverGlobalScore={this.serverGlobalScore.bind(this)} personalScore={this.state.personalScore} globalScore={this.state.globalScore} latestScore={this.state.latestScore} getLatestScore={this.getLatestScore.bind(this)} userName={this.state.userName} userCookie={this.state.userCookie}/>
       </div>
     )
+  }
+
+  getCurrentScore(info){
+    this.setState({currentScore:info})
   }
 
   getLatestScore(info){
@@ -149,7 +152,6 @@ class App extends React.Component {
     }
     return (
       <div style={{backgroundColor:"rgba(10 100,100,0.5)",display:"flex", flexDirection:"column", alignItems:"center",justifyContent:"center", minHeight:"100vh",width:"100%",margin:"0 auto", position:"relative"}}>
-        <img src='/images/dodging-with-friends.png' style={{borderRadius:"25px",width:"50%",height:"auto",margin:"0 auto"}}></img>
         {display}
       </div>
     );

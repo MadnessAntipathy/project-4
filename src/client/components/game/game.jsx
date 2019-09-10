@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactAudioPlayer from 'react-audio-player';
+import Score from '../score/score';
 import styles from './style.scss';
 import { sendMoveData } from './client';
 import { updateState } from './client';
@@ -15,7 +16,7 @@ class Game extends React.Component {
   constructor() {
     super();
     this.state = {
-      joinGame: <button onClick={this.createNewPlayer.bind(this)}>Join Game</button>,
+      joinGame: <div className={styles.gameButton} onClick={this.createNewPlayer.bind(this)}>Join Game</div>,
       leaveGame: "",
       playerList: [],
       displayList: [],
@@ -25,6 +26,10 @@ class Game extends React.Component {
         left:false,
         right:false,
       },
+      showLegend:"src-client-components-game--style_onLegend",
+      isLegend: true,
+      legendButton: "src-client-components-game--style_legendaryButtonOn",
+      legendInstructions: "Click Here To Hide Legendary Instructions",
     };
 
     updateState((data) => {
@@ -41,7 +46,6 @@ class Game extends React.Component {
       }
       for (var key in data){
         if (data.hasOwnProperty(key)){
-
           if (data[key].type === 'player'){
             var unit = document.createElement("div")
             unit.style.boxSizing = "border-box"
@@ -99,7 +103,7 @@ class Game extends React.Component {
       var showList = this.state.playerList.map((obj, index)=>{
         return  <tr key={index}><td style={{maxWidth:"100px", whiteSpace:"nowrap", overflowX:"hidden"}}>{obj.name}</td><td></td><td>{obj.score}</td></tr>
       })
-      this.setState({displayList: showList})
+      this.props.getCurrentScore(showList)
     });
 
     getScore((data)=>{
@@ -109,7 +113,7 @@ class Game extends React.Component {
         var usableData = JSON.parse(this.responseText)
         componentThis.props.getLatestScore(usableData)
         componentThis.setState({
-          joinGame: <button onClick={componentThis.createNewPlayer.bind(componentThis)}>Join Game</button>,
+          joinGame: <div className={styles.gameButton} onClick={componentThis.createNewPlayer.bind(componentThis)}>Join Game</div>,
           leaveGame: "",
         })
         scoreIsReady()
@@ -137,14 +141,14 @@ class Game extends React.Component {
     newPlayer(data)
     this.setState({
       joinGame: "",
-      leaveGame: <button onClick={this.deletePlayer.bind(this)}>Leave Game</button>,
+      leaveGame: <div className={styles.gameButton} onClick={this.deletePlayer.bind(this)}>Leave Game</div>,
     })
   }
 
   deletePlayer(){
     disconnectGame()
     this.setState({
-      joinGame: <button onClick={this.createNewPlayer.bind(this)}>Join Game</button>,
+      joinGame: <div className={styles.gameButton} onClick={this.createNewPlayer.bind(this)}>Join Game</div>,
       leaveGame: "",
     })
   }
@@ -183,48 +187,70 @@ class Game extends React.Component {
     // }
   }
 
+  showLegend(){
+    this.setState({isLegend:!this.state.isLegend})
+    if(this.state.isLegend){
+      this.setState({
+        showLegend:"src-client-components-game--style_offLegend",
+        legendButton:"src-client-components-game--style_legendaryButtonOff",
+        legendInstructions: "Click Here For Legendary Instructions"
+
+      })
+    }else{
+      this.setState({
+        showLegend:"src-client-components-game--style_onLegend",
+        legendButton:"src-client-components-game--style_legendaryButtonOn",
+        legendInstructions: "Click Here To Hide Legendary Instructions"
+      })
+    }
+  }
+
   render() {
     return (
-      <div className={styles.gameContainer}>
-        <div>
-          <table className={styles.legend} cellPadding="5">
-          <thead>
-            <tr><th width="20%">Icon</th><th width="20%">Type</th><th width="60%">Description</th></tr>
-          </thead>
-          <tbody>
-              <tr><td><div className={styles.smallOne} style={{backgroundColor:"green"}}></div></td><td>You</td><td>This is you, there are many others like you, but you are you.</td></tr>
-              <tr><td><div className={styles.smallOne} style={{backgroundColor:"blue"}}></div></td><td>Friendly, maybe?</td><td>This is a friend, you can push your friend into the enemy and make them not your friend.</td></tr>
-              <tr><td><div className={styles.smallOne} style={{backgroundColor:"red"}}></div></td><td>Enemy</td><td>This is an enemy, touch him and you are out! You can try to push your friend into it though.</td></tr>
-              <tr><td><div className={styles.smallOne} style={{backgroundColor:"purple"}}></div></td><td>Enemy</td><td>Same as the red dude, but he will follow you for a while.</td></tr>
-              <tr><td><div className={styles.spawner} style={{backgroundColor:"yellow"}}></div></td><td>Enemy</td><td>This is where the purple ones come out. You have about 5 seconds to get away from this before it starts to spawn purples.</td></tr>
-              <tr><td><div className={styles.spawner} style={{backgroundColor:"purple"}}></div></td><td>Enemy</td><td>If you are standing next to this, RUN!!!</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <h1>May the best player survive...</h1>
-        <div className={styles.gameDetailsContainer}>
-          <div>
-            <div id="gameMap" style={{position:"relative",backgroundColor:"black",minHeight:"500px",minWidth:"500px",overflow:"hidden"}}></div>
-          </div>
-          <div className={styles.playerDetailsContainer}>
-            <table cellPadding="10">
-            <thead>
-              <tr><th colSpan="3">Player List</th></tr>
-              <tr><td>Player Name</td><td></td><td>Score</td></tr>
-            </thead>
-            <tbody>
-              {this.state.displayList.length > 0 ? this.state.displayList : null}
-            </tbody>
-            </table>
+      <div className={styles.gameDetailsContainer}>
+        <div className={styles.mainGameContainer}>
+          <h1>May the best player survive...</h1>
+          <div className={styles.gameContainer}>
+              <div>
+                <div id="gameMap" style={{position:"relative",backgroundColor:"black",minHeight:"500px",minWidth:"500px",overflow:"hidden"}}></div>
+              </div>
+              <div>
+                <Score currentScore={this.props.currentScore} serverGlobalScore={this.props.serverGlobalScore.bind(this)} latestScore={this.props.latestScore} personalScore={this.props.personalScore} globalScore={this.props.globalScore} userName={this.props.userName} userCookie={this.props.userCookie}/>
+              </div>
           </div>
         </div>
+          <div className={styles.legendContainer}>
+            <div className={this.state.legendButton} onClick={this.showLegend.bind(this)}>
+            {this.state.legendInstructions}
+            </div>
+            <div className={this.state.showLegend}>
+              <table cellPadding="5">
+              <thead>
+                <tr><th width="20%">Icon</th><th width="20%">Type</th><th width="60%">Description</th></tr>
+              </thead>
+              <tbody>
+                  <tr><td><div className={styles.smallOne} style={{backgroundColor:"green"}}></div></td><td>You</td><td>This is you, there are many others like you, but you are you.</td></tr>
+                  <tr><td><div className={styles.smallOne} style={{backgroundColor:"blue"}}></div></td><td>Friendly, maybe?</td><td>This is a friend, you can push your friend into the enemy and make them not your friend.</td></tr>
+                  <tr><td><div className={styles.smallOne} style={{backgroundColor:"red"}}></div></td><td>Enemy</td><td>This is an enemy, touch him and you are out! You can try to push your friend into it though.</td></tr>
+                  <tr><td><div className={styles.smallOne} style={{backgroundColor:"purple"}}></div></td><td>Enemy</td><td>Same as the red dude, but he will follow you for a while.</td></tr>
+                  <tr><td><div className={styles.spawner} style={{backgroundColor:"yellow"}}></div></td><td>Enemy</td><td>This is where the purple ones come out. You have about 5 seconds to get away from this before it starts to spawn purples.</td></tr>
+                  <tr><td><div className={styles.spawner} style={{backgroundColor:"purple"}}></div></td><td>Enemy</td><td>If you are standing next to this, RUN!!!</td></tr>
+                </tbody>
+              </table>
+              <div className={styles.movementInstructions}>
+                <h3>How to not get killed</h3>
+                <p>Control your player with the WASD or arrow keys. You earn a point for each red or purple enemy evaded.</p>
+                <p>Do your best! (Or worse, I am a programmer, not a cheerleader...)</p>
+              </div>
+            </div>
+          </div>
         <div className={styles.joinState}>
             {this.state.joinGame}
             {this.state.leaveGame}
             <div>
               <ReactAudioPlayer src="audio/TheVapors-TurningJapanese8bit.mp3" autoPlay controls/>
             </div>
-            <button onClick={()=>{window.location.reload()}}>Logout</button>
+            <div className={styles.gameButton} onClick={()=>{window.location.reload()}}>Logout</div>
         </div>
       </div>
     );
@@ -234,6 +260,12 @@ class Game extends React.Component {
 Game.propTypes = {
   userName: PropTypes.string.isRequired,
   userCookie: PropTypes.number.isRequired,
+  latestScore: PropTypes.number.isRequired,
+  getCurrentScore: PropTypes.func.isRequired,
+  currentScore: PropTypes.arrayOf(PropTypes.object).isRequired,
+  globalScore: PropTypes.arrayOf(PropTypes.object).isRequired,
+  personalScore: PropTypes.arrayOf(PropTypes.object).isRequired,
+  serverGlobalScore: PropTypes.func.isRequired,
   // sendLatestScore:PropTypes.func.isRequired,
 };
 
