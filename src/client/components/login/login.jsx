@@ -39,7 +39,9 @@ class Login extends React.Component {
   render() {
     return (
       <div className={styles.loginBox}>
+
       <div className={styles.infoHolder}>
+      
         <h2>Already have an account? Lets play!</h2>
         <div className={styles.panelHolder}>
           <label>Username:</label><input style={{width:"60%"}} type="text" onChange={this.getUser.bind(this)}></input><br/>

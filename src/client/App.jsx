@@ -3,6 +3,7 @@ import { hot } from 'react-hot-loader';
 import Login from './components/login/login';
 import Score from './components/score/score';
 import Game from './components/game/game';
+
 var moment = require('moment');
 
 class App extends React.Component {
@@ -147,7 +148,8 @@ class App extends React.Component {
       this.setState({invalidLogin:false})
     }
     return (
-      <div style={{backgroundColor:"rgba(100,100,100,0.5)",display:"flex", flexDirection:"column", alignItems:"center",justifyContent:"center", minHeight:"100vh",width:"100%",margin:"0 auto", position:"relative"}}>
+      <div style={{backgroundColor:"rgba(10 100,100,0.5)",display:"flex", flexDirection:"column", alignItems:"center",justifyContent:"center", minHeight:"100vh",width:"100%",margin:"0 auto", position:"relative"}}>
+        <img src='/images/dodging-with-friends.png' style={{borderRadius:"25px",width:"50%",height:"auto",margin:"0 auto"}}></img>
         {display}
       </div>
     );

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactAudioPlayer from 'react-audio-player';
 import styles from './style.scss';
 import { sendMoveData } from './client';
 import { updateState } from './client';
@@ -185,6 +186,17 @@ class Game extends React.Component {
   render() {
     return (
       <div className={styles.gameContainer}>
+        <div>
+          <table className={styles.legend} cellPadding="5">
+            <tr><th width="20%">Icon</th><th width="20%">Type</th><th width="60%">Description</th></tr>
+            <tr><td><div className={styles.smallOne} style={{backgroundColor:"green"}}></div></td><td>You</td><td>This is you, there are many others like you, but you are you.</td></tr>
+            <tr><td><div className={styles.smallOne} style={{backgroundColor:"blue"}}></div></td><td>Friendly, maybe?</td><td>This is a friend, you can push your friend into the enemy and make them not your friend.</td></tr>
+            <tr><td><div className={styles.smallOne} style={{backgroundColor:"red"}}></div></td><td>Enemy</td><td>This is an enemy, touch him and you are out! You can try to push your friend into it though.</td></tr>
+            <tr><td><div className={styles.smallOne} style={{backgroundColor:"purple"}}></div></td><td>Enemy</td><td>Same as the red dude, but he will follow you for a while.</td></tr>
+            <tr><td><div className={styles.spawner} style={{backgroundColor:"yellow"}}></div></td><td>Enemy</td><td>This is where the purple ones come out. You have about 5 seconds to get away from this before it starts to spawn purples.</td></tr>
+            <tr><td><div className={styles.spawner} style={{backgroundColor:"purple"}}></div></td><td>Enemy</td><td>If you are standing next to this, RUN!!!</td></tr>
+          </table>
+        </div>
         <h1>May the best player survive...</h1>
         <div className={styles.gameDetailsContainer}>
           <div>
@@ -205,6 +217,9 @@ class Game extends React.Component {
         <div className={styles.joinState}>
             {this.state.joinGame}
             {this.state.leaveGame}
+            <div>
+              <ReactAudioPlayer src="audio/TheVapors-TurningJapanese8bit.mp3" autoPlay controls/>
+            </div>
             <button onClick={()=>{window.location.reload()}}>Logout</button>
         </div>
       </div>
