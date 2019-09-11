@@ -26,10 +26,9 @@ class Game extends React.Component {
         left:false,
         right:false,
       },
-      showLegend:"src-client-components-game--style_onLegend",
       isLegend: true,
-      legendButton: "src-client-components-game--style_legendaryButtonOn",
-      legendInstructions: "Click Here To Hide Legendary Instructions",
+      showLegend:<div className={styles.onLegend}>{this.returnLegend()}</div>,
+      legendButton: <div className={styles.legendaryButtonOn} onClick={this.showLegend.bind(this)}>Click Here To Hide Legendary Instructions</div>,
     };
 
     updateState((data) => {
@@ -153,6 +152,31 @@ class Game extends React.Component {
     })
   }
 
+  returnLegend(){
+    return(
+      <div>
+        <table cellPadding="5">
+        <thead>
+          <tr><th width="20%">Icon</th><th width="20%">Type</th><th width="60%">Description</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><div className={styles.smallOne} style={{backgroundColor:"green"}}></div></td><td>You</td><td>This is you, there are many others like you, but you are you.</td></tr>
+            <tr><td><div className={styles.smallOne} style={{backgroundColor:"blue"}}></div></td><td>Friendly, maybe?</td><td>This is a friend, you can push your friend into the enemy and make them not your friend.</td></tr>
+            <tr><td><div className={styles.smallOne} style={{backgroundColor:"red"}}></div></td><td>Enemy</td><td>This is an enemy, touch him and you are out! You can try to push your friend into it though.</td></tr>
+            <tr><td><div className={styles.smallOne} style={{backgroundColor:"purple"}}></div></td><td>Enemy</td><td>Same as the red dude, but he will follow you for a while.</td></tr>
+            <tr><td><div className={styles.spawner} style={{backgroundColor:"yellow"}}></div></td><td>Enemy</td><td>This is where the purple ones come out. You have about 5 seconds to get away from this before it starts to spawn purples.</td></tr>
+            <tr><td><div className={styles.spawner} style={{backgroundColor:"purple"}}></div></td><td>Enemy</td><td>If you are standing next to this, RUN!!!</td></tr>
+          </tbody>
+        </table>
+        <div className={styles.movementInstructions}>
+          <h3>How to not get killed</h3>
+          <p>Control your player with the WASD or arrow keys. You earn a point for each red or purple enemy evaded.</p>
+          <p>Do your best! (Or worse, I am a programmer, not a cheerleader...)</p>
+        </div>
+      </div>
+    )
+  }
+
   keyUp(event){
     this.listenForKey(event,false)
   }
@@ -191,16 +215,16 @@ class Game extends React.Component {
     this.setState({isLegend:!this.state.isLegend})
     if(this.state.isLegend){
       this.setState({
-        showLegend:"src-client-components-game--style_offLegend",
-        legendButton:"src-client-components-game--style_legendaryButtonOff",
-        legendInstructions: "Click Here For Legendary Instructions"
+        showLegend:<div className={styles.offLegend}>{this.returnLegend()}</div>,
+        legendButton:<div className={styles.legendaryButtonOff} onClick={this.showLegend.bind(this)}>Click Here For Legendary Instructions</div>,
+
 
       })
     }else{
       this.setState({
-        showLegend:"src-client-components-game--style_onLegend",
-        legendButton:"src-client-components-game--style_legendaryButtonOn",
-        legendInstructions: "Click Here To Hide Legendary Instructions"
+        showLegend:<div className={styles.onLegend}>{this.returnLegend()}</div>,
+        legendButton:<div className={styles.legendaryButtonOn} onClick={this.showLegend.bind(this)}>Click Here To Hide Legendary Instructions</div>,
+
       })
     }
   }
@@ -209,29 +233,8 @@ class Game extends React.Component {
     return (
       <div className={styles.gameDetailsContainer}>
         <div className={styles.legendContainer}>
-          <div className={this.state.legendButton} onClick={this.showLegend.bind(this)}>
-          {this.state.legendInstructions}
-          </div>
-          <div className={this.state.showLegend}>
-            <table cellPadding="5">
-            <thead>
-              <tr><th width="20%">Icon</th><th width="20%">Type</th><th width="60%">Description</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><div className={styles.smallOne} style={{backgroundColor:"green"}}></div></td><td>You</td><td>This is you, there are many others like you, but you are you.</td></tr>
-                <tr><td><div className={styles.smallOne} style={{backgroundColor:"blue"}}></div></td><td>Friendly, maybe?</td><td>This is a friend, you can push your friend into the enemy and make them not your friend.</td></tr>
-                <tr><td><div className={styles.smallOne} style={{backgroundColor:"red"}}></div></td><td>Enemy</td><td>This is an enemy, touch him and you are out! You can try to push your friend into it though.</td></tr>
-                <tr><td><div className={styles.smallOne} style={{backgroundColor:"purple"}}></div></td><td>Enemy</td><td>Same as the red dude, but he will follow you for a while.</td></tr>
-                <tr><td><div className={styles.spawner} style={{backgroundColor:"yellow"}}></div></td><td>Enemy</td><td>This is where the purple ones come out. You have about 5 seconds to get away from this before it starts to spawn purples.</td></tr>
-                <tr><td><div className={styles.spawner} style={{backgroundColor:"purple"}}></div></td><td>Enemy</td><td>If you are standing next to this, RUN!!!</td></tr>
-              </tbody>
-            </table>
-            <div className={styles.movementInstructions}>
-              <h3>How to not get killed</h3>
-              <p>Control your player with the WASD or arrow keys. You earn a point for each red or purple enemy evaded.</p>
-              <p>Do your best! (Or worse, I am a programmer, not a cheerleader...)</p>
-            </div>
-          </div>
+          {this.state.legendButton}
+          {this.state.showLegend}
         </div>
         <div className={styles.mainGameContainer}>
           <h1>May the best player survive...</h1>
