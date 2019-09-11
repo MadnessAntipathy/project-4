@@ -1,6 +1,6 @@
 import openSocket from 'socket.io-client';
-const socket = openSocket(window.location.hostname);
-
+const socket = openSocket('http://192.168.175.244:3000/');
+// window.location.hostname
 function updateState(cb){
   socket.on('state', data=>cb(data))
 }
