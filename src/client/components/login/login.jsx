@@ -39,7 +39,7 @@ class Login extends React.Component {
   render() {
     return (
       <div className={styles.overallLogin}>
-        <img src='/images/dodging-with-friends.png' style={{borderRadius:"25px 25px 0px 0px",width:"50%",height:"auto",margin:"0 auto"}}></img>
+        <img src='/images/dodging-with-friends.png' style={{borderRadius:"25px 25px 0px 0px",padding:"0px",width:"50%",height:"auto",margin:"0 auto"}}></img>
         <div className={styles.loginBox}>
         <div className={styles.infoHolder}>
 
