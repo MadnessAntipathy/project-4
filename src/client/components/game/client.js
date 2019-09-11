@@ -1,5 +1,5 @@
 import openSocket from 'socket.io-client';
-const socket = openSocket('https://dodging-with-friends.herokuapp.com:80/');
+const socket = openSocket('window.location.hostname:80');
 
 function updateState(cb){
   socket.on('state', data=>cb(data))
