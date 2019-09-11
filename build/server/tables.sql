@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  name TEXT,
+  password TEXT);
+
+CREATE TABLE IF NOT EXISTS scores (
+  id SERIAL PRIMARY KEY,
+  userid INTEGER,
+  scores INTEGER,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
