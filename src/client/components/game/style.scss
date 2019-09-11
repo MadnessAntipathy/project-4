@@ -41,7 +41,7 @@
 }
 
 .joinState{
-  
+
   padding: 10px;
   border-radius: 25px;
   text-align: center;
@@ -92,9 +92,9 @@
 }
 
 @keyframes fadeIn {
-    0% {display:none; height: 0px; opacity: 0;}
+    0% {height: 0px; opacity: 0;}
     50% {height: 300px;}
-    100% {height: 300px; display:block; visibility:visible; opacity: 1;}
+    100% {height: 300px; visibility:visible; opacity: 1;}
 }
 
 .offLegend{
@@ -107,9 +107,9 @@
 }
 
 @keyframes fadeOut {
-  0% {display:block;height:300px; opacity: 1;}
+  0% {height:300px; opacity: 1;}
   50% {opacity:0;}
-  100% {display:none;height:0px;visibility:hidden;opacity:0;}
+  100% {height:0px;visibility:hidden;opacity:0;}
 }
 
 .smallOne{
