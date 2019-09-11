@@ -1,5 +1,5 @@
 import openSocket from 'socket.io-client';
-const socket = openSocket('http://dodging-with-friends.herokuapp.com/:3000/');
+const socket = openSocket('http://dodging-with-friends.herokuapp.com:8080/');
 
 function updateState(cb){
   socket.on('state', data=>cb(data))
