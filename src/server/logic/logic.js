@@ -48,15 +48,15 @@ module.exports.spawnEnemy = function(speed, multiplier){
     var enemyObject = returnEnemyList(speed,playerList)
     objects[enemyObject.id] = enemyObject.enemy
   }
-  // if (multiplier % 5 === 0){
-  //   for (var j = 0; j < playerList.length; j++){
-  //     var seekerObject = returnSeeker()
-  //     objects[seekerObject.id] = seekerObject
-  //     if (playerList[j]){
-  //       objects[seekerObject.id].target = playerList[j]
-  //     }
-  //   }
-  // }
+  if (multiplier % 5 === 0){
+    for (var j = 0; j < playerList.length; j++){
+      var seekerObject = returnSeeker()
+      objects[seekerObject.id] = seekerObject
+      if (playerList[j]){
+        objects[seekerObject.id].target = playerList[j]
+      }
+    }
+  }
 }
 
 function returnSeeker (speed){
