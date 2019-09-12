@@ -31,33 +31,33 @@ module.exports.spawnEnemy = function(speed, multiplier){
     y: Math.floor(Math.random()*500)
   }
 
-  if (multiplier % 5 === 4){
-    if (!objects["alertState"]){
-      objects["alertState"] = alertState
-    }
-    objects["alertState"].color = "yellow"
-  }else if (multiplier % 5 === 0){
-    objects["alertState"].color = "purple"
-  }else {
-    if (objects["alertState"]){
-      delete objects["alertState"]
-    }
-  }
+  // if (multiplier % 5 === 4){
+  //   if (!objects["alertState"]){
+  //     objects["alertState"] = alertState
+  //   }
+  //   objects["alertState"].color = "yellow"
+  // }else if (multiplier % 5 === 0){
+  //   objects["alertState"].color = "purple"
+  // }else {
+  //   if (objects["alertState"]){
+  //     delete objects["alertState"]
+  //   }
+  // }
 
   var playerList = Object.values(objects).filter(obj => obj.type === "player")
   for (var i = 0; i < multiplier; i++){
     var enemyObject = returnEnemyList(speed,playerList)
     objects[enemyObject.id] = enemyObject.enemy
   }
-  if (multiplier % 5 === 0){
-    for (var j = 0; j < playerList.length; j++){
-      var seekerObject = returnSeeker()
-      objects[seekerObject.id] = seekerObject
-      if (playerList[j]){
-        objects[seekerObject.id].target = playerList[j]
-      }
-    }
-  }
+  // if (multiplier % 5 === 0){
+  //   for (var j = 0; j < playerList.length; j++){
+  //     var seekerObject = returnSeeker()
+  //     objects[seekerObject.id] = seekerObject
+  //     if (playerList[j]){
+  //       objects[seekerObject.id].target = playerList[j]
+  //     }
+  //   }
+  // }
 }
 
 function returnSeeker (speed){

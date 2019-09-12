@@ -8,11 +8,20 @@ Following the previous corrections in my project and having to refactor them, I 
 --
 Code and Code Design
 What in my code and program design in the project would I do differently next time?
-As ReactJS was a new library, I was unsure of the various methods to manipulate the data within. As a result, I had several areas of code where it repeated itself.
+As ReactJS was a new library, I was unsure of the various methods to manipulate the data within. As a result, I had several areas of code where it repeated itself. I do not have examples of the duplicate code as I have already refactored it.
 
 What in my code and program design in the project went well? Is there anything I would do the same next time?
 During the project, I researched on methods that were feasible to my project such as passing a function from a parent component into the child component and into its child component. As I progressed in my project, I was also exposed to certain best practices and utilized methods such as shouldComponentUpdate().
+https://github.com/MadnessAntipathy/project-4/blob/master/src/client/components/score/score.jsx#L56
 
+Passing a function starting at App
+https://github.com/MadnessAntipathy/project-4/blob/master/src/client/App.jsx#L86
+
+Pushing the function into the Game component
+https://github.com/MadnessAntipathy/project-4/blob/master/src/client/components/game/game.jsx#L246
+
+Finally using function in Score to return the value back to the App component
+https://github.com/MadnessAntipathy/project-4/blob/master/src/client/components/score/score.jsx#L32
 
 For each, please include code examples.
 Code snippet up to 20 lines.
